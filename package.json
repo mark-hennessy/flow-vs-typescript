@@ -1,0 +1,16 @@
+{
+  "name": "scratch",
+  "description": "A simple sandbox app",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mark-hennessy/scratch.git"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Mark Hennessy"
+  },
+  "devDependencies": {},
+  "scripts": {}
+}
