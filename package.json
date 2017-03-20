@@ -16,11 +16,18 @@
     "babel-core": "^6.24.0",
     "babel-jest": "^19.0.0",
     "babel-preset-es2015": "^6.24.0",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.2",
     "jest": "^19.0.2",
     "rimraf": "^2.6.1"
   },
   "scripts": {
     "clean": "rimraf coverage",
+    "lint": "eslint src",
+    "lint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --",
     "test": "jest",
     "test:watch": "yarn test -- --watch",
     "test:cov": "yarn test -- --coverage",
