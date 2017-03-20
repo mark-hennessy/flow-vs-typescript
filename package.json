@@ -23,6 +23,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.2",
     "jest": "^19.0.2",
+    "jsdoc": "^3.4.3",
     "rimraf": "^2.6.1"
   },
   "scripts": {
@@ -32,6 +33,8 @@
     "test": "jest",
     "test:watch": "yarn test -- --watch",
     "test:cov": "yarn test -- --coverage",
-    "build:proof": "babel src/main.js"
+    "build:proof": "babel src/main.js",
+    "docs": "yarn run jsdoc -- src -r -d docs",
+    "docs:clean": "rimraf docs"
   }
 }
