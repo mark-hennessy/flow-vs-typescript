@@ -1,8 +1,12 @@
+.DS_Store
+
 node_modules
 npm-debug.log
-.DS_Store
+
+out/
+coverage/
+docs/
+
 .idea
 *.iml
 .vscode/
-coverage/
-docs/

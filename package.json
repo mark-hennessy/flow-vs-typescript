@@ -26,18 +26,25 @@
     "flow-bin": "^0.42.0",
     "jest": "^19.0.2",
     "jsdoc": "^3.4.3",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "typescript": "^2.2.1"
   },
   "scripts": {
-    "clean": "rimraf coverage docs",
+    "clean": "yarn run clean:out && yarn run clean:cov && yarn run clean:docs",
+    "clean:out": "rimraf out",
+    "clean:cov": "rimraf coverage",
+    "clean:docs": "rimraf docs",
+
     "flow": "flow",
     "lint": "eslint src; exit 0",
     "lint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
+    "flint": "yarn run flow && yarn run lint",
+
     "test": "jest",
     "test:watch": "yarn test -- --watch",
     "test:cov": "yarn test -- --coverage",
-    "build": "yarn run flow && yarn run lint",
-    "babel": "babel src/main.js",
-    "docs": "yarn run jsdoc -- src -r -d docs"
+
+    "build": "babel src --out-dir out",
+    "docs": "yarn run clean:docs && yarn run build && yarn run jsdoc -- out -r -d docs"
   }
 }

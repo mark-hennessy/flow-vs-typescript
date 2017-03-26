@@ -1,4 +1,4 @@
-import { sayHi, addNumbers } from '../../random';
+import { sayHi, addNumbers } from '../../jest_demo';
 
 describe('sayHi', () => {
   it('should say Hi', () => {
