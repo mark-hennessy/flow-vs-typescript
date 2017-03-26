@@ -1,11 +1,11 @@
 {
-  "name": "scratch",
-  "description": "A simple sandbox app",
+  "name": "flow-vs-typescript",
+  "description": "A sandbox app to experiment with various JavaScript technologies.",
   "version": "0.0.1",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mark-hennessy/scratch.git"
+    "url": "https://github.com/mark-hennessy/flow-vs-typescript.git"
   },
   "keywords": [],
   "author": "Mark Hennessy <mhennessy116@gmail.com>",
