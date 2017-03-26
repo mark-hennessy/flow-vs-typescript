@@ -29,7 +29,7 @@
     "rimraf": "^2.6.1"
   },
   "scripts": {
-    "clean": "rimraf coverage",
+    "clean": "rimraf coverage docs",
     "flow": "flow",
     "lint": "eslint src; exit 0",
     "lint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
@@ -38,7 +38,6 @@
     "test:cov": "yarn test -- --coverage",
     "build": "yarn run flow && yarn run lint",
     "babel": "babel src/main.js",
-    "docs": "yarn run jsdoc -- src -r -d docs",
-    "docs:clean": "rimraf docs"
+    "docs": "yarn run jsdoc -- src -r -d docs"
   }
 }
