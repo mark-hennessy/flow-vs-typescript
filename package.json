@@ -8,32 +8,36 @@
     "url": "https://github.com/mark-hennessy/scratch.git"
   },
   "keywords": [],
-  "author": {
-    "name": "Mark Hennessy"
-  },
+  "author": "Mark Hennessy <mhennessy116@gmail.com>",
   "devDependencies": {
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
+    "babel-eslint": "^7.2.1",
     "babel-jest": "^19.0.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-es2015": "^6.24.0",
     "eslint": "^3.18.0",
     "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-flowtype": "^2.30.4",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jest": "^19.0.1",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.2",
+    "flow-bin": "^0.42.0",
     "jest": "^19.0.2",
     "jsdoc": "^3.4.3",
     "rimraf": "^2.6.1"
   },
   "scripts": {
     "clean": "rimraf coverage",
+    "flow": "flow",
     "lint": "eslint src; exit 0",
     "lint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
     "test": "jest",
     "test:watch": "yarn test -- --watch",
     "test:cov": "yarn test -- --coverage",
-    "build:proof": "babel src/main.js",
+    "build": "yarn run flow && yarn run lint",
+    "babel": "babel src/main.js",
     "docs": "yarn run jsdoc -- src -r -d docs",
     "docs:clean": "rimraf docs"
   }

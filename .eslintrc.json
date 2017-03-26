@@ -1,10 +1,12 @@
 {
   "extends": [
     "airbnb",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:flowtype/recommended"
   ],
   "plugins": [
-    "jest"
+    "jest",
+    "flowtype"
   ],
   "env": {
     "jest": true

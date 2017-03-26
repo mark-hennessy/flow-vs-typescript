@@ -1,8 +1,10 @@
+// @flow
+
 /**
  * A simple ES6 arrow function example.
  *
  * @returns {string} a greeting
  */
-const sayHi = () => 'Hi';
+export const sayHi = (): string => 'Hi';
 
-export default sayHi;
+export const addNumbers = (a: number, b: number): number => a + b;
