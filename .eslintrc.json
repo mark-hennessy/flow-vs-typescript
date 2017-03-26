@@ -10,5 +10,15 @@
   ],
   "env": {
     "jest": true
+  },
+  "rules": {
+    "flowtype/require-parameter-type": [
+      2,
+      "always"
+    ],
+    "flowtype/require-return-type": [
+      2,
+      "always"
+    ]
   }
 }
