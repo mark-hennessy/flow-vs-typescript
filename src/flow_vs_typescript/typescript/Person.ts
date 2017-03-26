@@ -12,7 +12,7 @@ class Person {
 
   /**
    * A simple method that demonstrates a return type annotation.
-   * @returns {string} a greeting
+   * @returns a greeting
    */
   getGreeting(): string {
     return this.getSpecialGreeting();
@@ -20,7 +20,7 @@ class Person {
 
   /**
    * An internal helper method
-   * @returns {string} a special greeting
+   * @returns a special greeting
    */
   private getSpecialGreeting(): string {
     return 'Welcome';

@@ -20,7 +20,7 @@ class Person {
 
   /**
    * A simple method that demonstrates a flow return type annotation.
-   * @returns {string} a greeting
+   * @returns a greeting
    */
   getGreeting(): string {
     return this.getSpecialGreeting();
@@ -29,7 +29,7 @@ class Person {
   /**
    * An internal helper method
    * @private
-   * @returns {string} a special greeting
+   * @returns a special greeting
    */
   // eslint-disable-next-line class-methods-use-this
   getSpecialGreeting(): string {
