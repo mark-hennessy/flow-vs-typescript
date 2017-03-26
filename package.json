@@ -28,6 +28,7 @@
     "jsdoc": "^3.4.3",
     "jsdoc-babel": "^0.3.0",
     "rimraf": "^2.6.1",
+    "tslint": "^4.5.1",
     "typescript": "^2.2.1"
   },
   "scripts": {
