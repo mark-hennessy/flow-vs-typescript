@@ -1,11 +1,9 @@
 # Scratch
-A sandbox app to help me experiment with various JavaScript technologies. 
+A sandbox app to experiment with various JavaScript technologies. 
 
-## Main Goal
-Compare ES6/Flow and Typescript.
+The main goal is to compare ES6/Flow and Typescript.
 
-## Secondary Goals
-Experiment with:
+Secondary goals are to experimentation with:
 
 * Build tools
 * NPM dependency management
