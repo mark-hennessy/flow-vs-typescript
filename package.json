@@ -45,6 +45,6 @@
     "test:watch": "yarn test -- --watch",
     "test:cov": "yarn test -- --coverage",
     "build": "yarn run clean:out && babel src --out-dir out",
-    "docs": "yarn run clean:docs && yarn run jsdoc -- src -r -c jsdoc.conf.json -d docs"
+    "docs": "yarn run clean:docs && yarn run jsdoc -- src -r -c jsdoc.conf.json -d docs --verbose"
   }
 }
