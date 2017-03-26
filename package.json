@@ -29,6 +29,7 @@
     "jsdoc-babel": "^0.3.0",
     "rimraf": "^2.6.1",
     "tslint": "^4.5.1",
+    "tslint-config-airbnb": "^1.1.1",
     "typescript": "^2.2.1"
   },
   "scripts": {
@@ -37,9 +38,9 @@
     "clean:cov": "rimraf coverage",
     "clean:docs": "rimraf docs",
     "flow": "flow",
-    "lint": "eslint src; exit 0",
-    "lint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
-    "flint": "yarn run flow && yarn run lint",
+    "eslint": "eslint src; exit 0",
+    "eslint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
+    "tslint": "tslint -c tslint.json src/**/*.ts; exit 0",
     "test": "jest",
     "test:watch": "yarn test -- --watch",
     "test:cov": "yarn test -- --coverage",
