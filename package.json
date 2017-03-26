@@ -30,6 +30,7 @@
     "rimraf": "^2.6.1",
     "tslint": "^4.5.1",
     "tslint-config-airbnb": "^1.1.1",
+    "typedoc": "^0.5.9",
     "typescript": "^2.2.1"
   },
   "scripts": {
@@ -45,6 +46,7 @@
     "test:watch": "yarn test -- --watch",
     "test:cov": "yarn test -- --coverage",
     "build": "yarn run clean:out && babel src --out-dir out",
-    "docs": "yarn run clean:docs && documentation build src/** --format html --output docs"
+    "docs:js": "yarn run clean:docs && documentation build src/** --format html --output docs",
+    "docs:ts": "yarn run clean:docs && typedoc src --out docs"
   }
 }

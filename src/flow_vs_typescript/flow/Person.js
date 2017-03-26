@@ -3,7 +3,6 @@
 
 /**
  * A simple Person class created as an example of how to use flow types.
- * @class
  */
 class Person {
   /**
