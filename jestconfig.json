@@ -1,0 +1,9 @@
+{
+  "testPathIgnorePatterns": [
+    "/node_modules/",
+    "/out/"
+  ],
+  "collectCoverageFrom": [
+    "src/**/*.js"
+  ]
+}
