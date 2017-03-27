@@ -28,9 +28,8 @@ class Person {
 
   /**
    * A static method that logs 'Hi' to the console.
-   * It's best practice not to use the ': void' type annotation explicitly.
    */
-  static sayHi() {
+  static sayHi(): void {
     console.log('Hi');
   }
 

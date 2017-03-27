@@ -25,7 +25,6 @@ var Person = (function () {
     };
     /**
      * A static method that logs 'Hi' to the console.
-     * It's best practice not to use the ': void' type annotation explicitly.
      */
     Person.sayHi = function () {
         console.log('Hi');
