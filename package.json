@@ -10,6 +10,7 @@
   "keywords": [],
   "author": "Mark Hennessy <mhennessy116@gmail.com>",
   "devDependencies": {
+    "@types/jest": "^19.2.2",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-eslint": "^7.2.1",
@@ -44,7 +45,7 @@
     "tslint": "tslint --config tslint.json src/**/*.ts; exit 0",
     "test": "jest --config=jestconfig.json",
     "test:watch": "yarn test -- --watch",
-    "test:cov": "yarn test -- --coverage",
+    "test:cov": "yarn test -- --coverage; exit 0",
     "build": "yarn run clean:out && babel src --out-dir out",
     "docs:js": "yarn run clean:docs && documentation build src/**/flow/*.js --format html --output docs",
     "docs:ts": "yarn run clean:docs && typedoc src/**/typescript/*.ts --out docs"
