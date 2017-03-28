@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES3",
+    "target": "ES6",
     "module": "commonjs",
     "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": false

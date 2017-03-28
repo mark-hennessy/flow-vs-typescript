@@ -1,16 +1,15 @@
 package codingame.skynet.java;
 
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.Stack;
 import java.util.function.Predicate;
 
@@ -25,31 +24,22 @@ import java.util.function.Predicate;
  */
 class Player {
 
-  public static void main(String args[])
-    throws IOException {
-    
-    Scanner scanner;
-    if (args.length > 0) {
-      scanner = new Scanner(Paths.get(args[0]));
-    } else {
-      scanner = new Scanner(System.in);
-    }
+  public static void main(String args[]) {
 
-    Game game = new Game(scanner);
-    game.loadGameData();
-    game.start();
+    new Game().start();
   }
 
   public static class Node {
     private int id;
     private boolean exitNode;
-    private List<Node> nodes;
+
+    private Set<Node> linkedNodes;
     private Iterator<Node> nodeIterator;
 
     public Node(int id) {
       this.id = id;
 
-      nodes = new ArrayList<>();
+      linkedNodes = new HashSet<>();
     }
 
     public int getId() {
@@ -60,20 +50,22 @@ class Player {
       return exitNode;
     }
 
-    public void setExitNode(boolean exitNode) {
-      this.exitNode = exitNode;
+    public void makeExitNode() {
+      this.exitNode = true;
     }
 
-    public void addNode(Node node) {
-      nodes.add(node);
+    public void addLinkWith(Node node) {
+      linkedNodes.add(node);
+      node.linkedNodes.add(this);
     }
 
-    public void removeNode(Node node) {
-      nodes.remove(node);
+    public void removeLinkWith(Node node) {
+      linkedNodes.remove(node);
+      node.linkedNodes.remove(this);
     }
 
-    public int nodeCount() {
-      return nodes.size();
+    public int linkedNodeCount() {
+      return linkedNodes.size();
     }
 
     public Node next(Predicate<Node> predicate) {
@@ -94,7 +86,7 @@ class Player {
 
     private Iterator<Node> getNodeIterator() {
       if (nodeIterator == null) {
-        nodeIterator = nodes.iterator();
+        nodeIterator = linkedNodes.iterator();
       }
       return nodeIterator;
     }
@@ -103,29 +95,9 @@ class Player {
     public String toString() {
       return "Node{" +
         "id=" + id +
-        ", exitNode=" + exitNode +
-        ", nodesSize=" + nodes.size() +
+        ", isExitNode=" + isExitNode() +
+        ", linkedNodeCount=" + linkedNodeCount() +
         '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      Node node = (Node) o;
-      return id == node.id &&
-        exitNode == node.exitNode &&
-        Objects.equals(nodes, node.nodes) &&
-        Objects.equals(nodeIterator, node.nodeIterator);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(id, exitNode, nodes, nodeIterator);
     }
   }
 
@@ -139,12 +111,12 @@ class Player {
     }
 
     public int weight() {
-      return 100 / (nodeA.nodeCount() + nodeB.nodeCount());
+      return 100 / (nodeA.linkedNodeCount() + nodeB.linkedNodeCount());
     }
 
     public void sever() {
-      nodeA.removeNode(nodeB);
-      nodeB.removeNode(nodeA);
+      nodeA.removeLinkWith(nodeB);
+
       System.out.println(nodeA.getId() + " " + nodeB.getId());
     }
 
@@ -154,24 +126,6 @@ class Player {
         "nodeA=" + nodeA +
         ", nodeB=" + nodeB +
         '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      Link link = (Link) o;
-      return Objects.equals(nodeA, link.nodeA) &&
-        Objects.equals(nodeB, link.nodeB);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(nodeA, nodeB);
     }
   }
 
@@ -247,37 +201,35 @@ class Player {
     private Scanner scanner;
     private Map<Integer, Node> nodeMap;
 
-    public Game(Scanner scanner) {
-      this.scanner = scanner;
-
+    public Game() {
+      scanner = new Scanner(System.in);
       nodeMap = new HashMap<>();
+
+      loadGameData();
     }
 
-    public void loadGameData() {
+    private void loadGameData() {
       // the total number of nodes in the level, including the gateways
-      int nodes = scanner.nextInt();
+      int nodeCount = scanner.nextInt();
       // the number of links
-      int links = scanner.nextInt();
+      int linkCount = scanner.nextInt();
       // the number of exit gateways
-      int exits = scanner.nextInt();
+      int exitNodeCount = scanner.nextInt();
 
-      for (int i = 0; i < links; i++) {
+      for (int i = 0; i < linkCount; i++) {
         // nodeA and nodeB defines a link between these nodes
         int a = scanner.nextInt();
         int b = scanner.nextInt();
         Node nodeA = loadNode(a);
         Node nodeB = loadNode(b);
-        nodeA.addNode(nodeB);
-        nodeB.addNode(nodeA);
+        nodeA.addLinkWith(nodeB);
       }
 
-      List<Node> exitNodes = new ArrayList<>();
-      for (int i = 0; i < exits; i++) {
+      for (int i = 0; i < exitNodeCount; i++) {
         // the index of a gateway node
         int exitId = scanner.nextInt();
         Node exitNode = nodeMap.get(exitId);
-        exitNode.setExitNode(true);
-        exitNodes.add(exitNode);
+        exitNode.makeExitNode();
       }
     }
 

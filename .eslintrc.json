@@ -12,13 +12,8 @@
     "jest": true
   },
   "rules": {
-    "flowtype/require-parameter-type": [
-      2,
-      "always"
-    ],
-    "flowtype/require-return-type": [
-      2,
-      "always"
-    ]
+    "flowtype/require-parameter-type": 2,
+    "flowtype/require-return-type": 2,
+    "allowForLoopAfterthoughts": 2
   }
 }
