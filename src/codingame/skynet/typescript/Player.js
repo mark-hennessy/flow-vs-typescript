@@ -11,13 +11,50 @@
  * IMPORTANT: You will need to delete the SpiderMonkey method stubs
  * so that codingame can use the actual implementations.
  */
-var codingame;
-(function (codingame) {
+var Codingame;
+(function (Codingame) {
     // SpiderMonkey method stubs
     const readline = () => '';
     const print = str => console.log(str);
-    // Entry point
-    new Game().start();
+    class Comparator {
+        static comparing(selectorFunc) {
+            return (a, b) => {
+                const valueA = selectorFunc(a);
+                const valueB = selectorFunc(b);
+                if (valueA < valueB) {
+                    return -1;
+                }
+                else if (valueA > valueB) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            };
+        }
+    }
+    class Scanner {
+        nextInt() {
+            return parseInt(this.next());
+        }
+        next() {
+            if (!this.currentLine) {
+                this.moveToNextLine();
+            }
+            let next = this.currentLine.next();
+            if (next.done) {
+                this.moveToNextLine();
+                next = this.currentLine.next();
+            }
+            return next.value;
+        }
+        moveToNextLine() {
+            const line = readline();
+            if (line) {
+                this.currentLine = line.split(' ')[Symbol.iterator]();
+            }
+        }
+    }
     class Node {
         constructor(id) {
             this.id = id;
@@ -130,7 +167,7 @@ var codingame;
         }
         build() {
             const path = new Path();
-            this.nodes.forEach(path.addNode);
+            this.nodes.forEach(path.addNode.bind(path));
             return path;
         }
     }
@@ -175,17 +212,21 @@ var codingame;
                 const agentId = this.scanner.nextInt();
                 const agentNode = this.loadNode(agentId);
                 const exitPaths = this.findExitPaths(agentNode);
+                if (!exitPaths.length) {
+                    break;
+                }
                 this.severShortestPath(exitPaths);
             }
         }
         findExitPaths(originNode) {
-            const paths = [];
             const pathBuilder = new PathBuilder();
             pathBuilder.push(originNode);
+            const notAlreadyVisitedNode = node => !pathBuilder.contains(node);
+            const paths = [];
             while (pathBuilder.hasNodes()) {
                 let nextNode = pathBuilder
                     .peek()
-                    .next(node => !pathBuilder.contains(node));
+                    .next(notAlreadyVisitedNode);
                 if (nextNode) {
                     pathBuilder.push(nextNode);
                     if (nextNode.isExitNode) {
@@ -212,43 +253,7 @@ var codingame;
             }
         }
     }
-    class Scanner {
-        nextInt() {
-            return parseInt(this.next());
-        }
-        next() {
-            if (!this.currentLine) {
-                this.moveToNextLine();
-            }
-            let next = this.currentLine.next();
-            if (next.done) {
-                this.moveToNextLine();
-                next = this.currentLine.next();
-            }
-            return next.value;
-        }
-        moveToNextLine() {
-            const line = readline();
-            if (line) {
-                this.currentLine = line.split(' ')[Symbol.iterator]();
-            }
-        }
-    }
-    class Comparator {
-        static comparing(selectorFunc) {
-            return (a, b) => {
-                const valueA = selectorFunc(a);
-                const valueB = selectorFunc(b);
-                if (valueA < valueB) {
-                    return -1;
-                }
-                else if (valueA > valueB) {
-                    return 1;
-                }
-                else {
-                    return 0;
-                }
-            };
-        }
-    }
-})(codingame || (codingame = {}));
+    Codingame.Game = Game;
+})(Codingame || (Codingame = {}));
+// Entry point
+new Codingame.Game().start();

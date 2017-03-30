@@ -11,13 +11,55 @@
  * IMPORTANT: You will need to delete the SpiderMonkey method stubs
  * so that codingame can use the actual implementations.
  */
-namespace codingame {
+namespace Codingame {
   // SpiderMonkey method stubs
   const readline: () => string = () => '';
   const print: (str: string) => void = str => console.log(str);
 
-  // Entry point
-  new Game().start();
+  class Comparator {
+    static comparing<T>(selectorFunc: (item: T) => number): (a: T, b: T) => number {
+      return (a, b) => {
+        const valueA = selectorFunc(a);
+        const valueB = selectorFunc(b);
+        if (valueA < valueB) {
+          return -1;
+        } else if (valueA > valueB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      };
+    }
+  }
+
+  class Scanner {
+    private currentLine: Iterator<string>;
+
+    nextInt(): number {
+      return parseInt(this.next());
+    }
+
+    next(): string {
+      if (!this.currentLine) {
+        this.moveToNextLine();
+      }
+
+      let next: IteratorResult<string> = this.currentLine.next();
+      if (next.done) {
+        this.moveToNextLine();
+        next = this.currentLine.next();
+      }
+
+      return next.value;
+    }
+
+    moveToNextLine(): void {
+      const line: string = readline();
+      if (line) {
+        this.currentLine = line.split(' ')[Symbol.iterator]();
+      }
+    }
+  }
 
   class Node {
     isExitNode: boolean;
@@ -168,12 +210,12 @@ namespace codingame {
 
     build(): Path {
       const path: Path = new Path();
-      this.nodes.forEach(path.addNode);
+      this.nodes.forEach(path.addNode.bind(path));
       return path;
     }
   }
 
-  class Game {
+  export class Game {
     private scanner: Scanner;
     private nodeMap: Map<number, Node>;
 
@@ -224,18 +266,27 @@ namespace codingame {
         const agentId: number = this.scanner.nextInt();
         const agentNode: Node = this.loadNode(agentId);
         const exitPaths: Path[] = this.findExitPaths(agentNode);
+        if (!exitPaths.length) {
+          break;
+        }
+
         this.severShortestPath(exitPaths);
       }
     }
 
     findExitPaths(originNode: Node): Path[] {
-      const paths: Path[] = [];
       const pathBuilder: PathBuilder = new PathBuilder();
       pathBuilder.push(originNode);
+
+      const notAlreadyVisitedNode: (node: Node) => boolean =
+        node => !pathBuilder.contains(node);
+
+      const paths: Path[] = [];
+
       while (pathBuilder.hasNodes()) {
         let nextNode: Node = pathBuilder
           .peek()
-          .next(node => !pathBuilder.contains(node));
+          .next(notAlreadyVisitedNode);
 
         if (nextNode) {
           pathBuilder.push(nextNode);
@@ -249,6 +300,7 @@ namespace codingame {
           pathBuilder.pop().resetNodeIterator();
         }
       }
+
       return paths;
     }
 
@@ -266,49 +318,7 @@ namespace codingame {
       }
     }
   }
-
-  class Scanner {
-    private currentLine: Iterator<string>;
-
-    nextInt(): number {
-      return parseInt(this.next());
-    }
-
-    next(): string {
-      if (!this.currentLine) {
-        this.moveToNextLine();
-      }
-
-      let next: IteratorResult<string> = this.currentLine.next();
-      if (next.done) {
-        this.moveToNextLine();
-        next = this.currentLine.next();
-      }
-
-      return next.value;
-    }
-
-    moveToNextLine(): void {
-      const line: string = readline();
-      if (line) {
-        this.currentLine = line.split(' ')[Symbol.iterator]();
-      }
-    }
-  }
-
-  class Comparator {
-    static comparing<T>(selectorFunc: (item: T) => number): (a: T, b: T) => number {
-      return (a, b) => {
-        const valueA = selectorFunc(a);
-        const valueB = selectorFunc(b);
-        if (valueA < valueB) {
-          return -1;
-        } else if (valueA > valueB) {
-          return 1;
-        } else {
-          return 0;
-        }
-      };
-    }
-  }
 }
+
+// Entry point
+new Codingame.Game().start();
