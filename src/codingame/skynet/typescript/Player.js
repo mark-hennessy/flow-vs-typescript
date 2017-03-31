@@ -85,7 +85,7 @@ var Codingame;
         next() {
             // if the columnIterator is undefined, then move to the initial row
             if (!this.columnIterator) {
-                !this.moveToNextRow();
+                this.moveToNextRow();
             }
             // get the next value on the current row
             let columnResult = this.columnIterator.next();
@@ -108,7 +108,7 @@ var Codingame;
             if (rowResult.done) {
                 return false;
             }
-            const row = this.rowIterator.next().value;
+            const row = rowResult.value;
             debug(row);
             this.columnIterator = row.split(' ')[Symbol.iterator]();
             return true;

@@ -92,7 +92,7 @@ namespace Codingame {
     next(): string {
       // if the columnIterator is undefined, then move to the initial row
       if (!this.columnIterator) {
-        !this.moveToNextRow();
+        this.moveToNextRow();
       }
 
       // get the next value on the current row
@@ -119,7 +119,7 @@ namespace Codingame {
         return false;
       }
 
-      const row: string = this.rowIterator.next().value;
+      const row: string = rowResult.value;
       debug(row);
       this.columnIterator = row.split(' ')[Symbol.iterator]();
       return true;
