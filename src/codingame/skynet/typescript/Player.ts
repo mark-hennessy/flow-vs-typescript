@@ -1,5 +1,3 @@
-import { readFile, readFileSync } from 'fs';
-
 /**
  * This code, i.e. the output JS, is meant to be copied into the codingame editor
  * for the Skynet (Medium) puzzle.
@@ -16,7 +14,6 @@ namespace Codingame {
   const UNDEFINED = 'undefined';
   const ENCODING = 'utf8';
   const RUNNING_IN_CODINGAME_EDITOR = typeof readline === FUNCTION && typeof printErr === FUNCTION;
-  const INPUT_DIR = `${__dirname}/../input.txt`;
 
   function out(message: string): void {
     console.log(message);
@@ -77,7 +74,15 @@ namespace Codingame {
      * Creates an iterator to traverse through a file line by line.
      */
     private createFileIterator(): Iterator<string> {
-      return readFileSync(INPUT_DIR, ENCODING).split(/\n/)[Symbol.iterator]();
+      // The __dirname variable is not available to codingame, so we have to hide it in this method.
+      // It's safe here because codingame does not enter this method.
+      const INPUT_DIR = `${__dirname}/../input.txt`;
+      // It would be better to use an ES6 import statement to import the 'fs' module,
+      // but import statements must occur at the top of the file...and that would crash
+      // codingame because codingame/SpiderMonkey doesn't support ES6 imports yet.
+      // We'll just have to settle for an old CommonJS require statement.
+      const fs = require('fs');
+      return fs.readFileSync(INPUT_DIR, ENCODING).split(/\n/)[Symbol.iterator]();
     }
 
     nextInt(): number {
