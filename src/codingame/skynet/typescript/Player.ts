@@ -15,7 +15,7 @@ namespace Codingame {
   const ENCODING = 'utf8';
   const RUNNING_IN_CODINGAME_EDITOR = typeof readline === FUNCTION && typeof printErr === FUNCTION;
 
-  function out(message: string): void {
+  function output(message: string): void {
     console.log(message);
   }
 
@@ -201,7 +201,7 @@ namespace Codingame {
     sever(): void {
       this.nodeA.removeLinkWith(this.nodeB);
 
-      out(`${this.nodeA.id} ${this.nodeB.id}`);
+      output(`${this.nodeA.id} ${this.nodeB.id}`);
     }
 
     toString(): string {

@@ -15,7 +15,7 @@ var Codingame;
     const UNDEFINED = 'undefined';
     const ENCODING = 'utf8';
     const RUNNING_IN_CODINGAME_EDITOR = typeof readline === FUNCTION && typeof printErr === FUNCTION;
-    function out(message) {
+    function output(message) {
         console.log(message);
     }
     function debug(message) {
@@ -170,7 +170,7 @@ var Codingame;
         }
         sever() {
             this.nodeA.removeLinkWith(this.nodeB);
-            out(`${this.nodeA.id} ${this.nodeB.id}`);
+            output(`${this.nodeA.id} ${this.nodeB.id}`);
         }
         toString() {
             return JSON.stringify({
