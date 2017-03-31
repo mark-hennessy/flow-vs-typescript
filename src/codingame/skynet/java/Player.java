@@ -25,7 +25,6 @@ import java.util.function.Predicate;
 class Player {
 
   public static void main(String args[]) {
-
     new Game().start();
   }
 
@@ -64,7 +63,7 @@ class Player {
       node.linkedNodes.remove(this);
     }
 
-    public int linkedNodeCount() {
+    public int linkCount() {
       return linkedNodes.size();
     }
 
@@ -96,7 +95,7 @@ class Player {
       return "Node{" +
         "id=" + id +
         ", isExitNode=" + isExitNode() +
-        ", linkedNodeCount=" + linkedNodeCount() +
+        ", linkCount=" + linkCount() +
         '}';
     }
   }
@@ -111,7 +110,7 @@ class Player {
     }
 
     public int weight() {
-      return 100 / (nodeA.linkedNodeCount() + nodeB.linkedNodeCount());
+      return 100 / (nodeA.linkCount() + nodeB.linkCount());
     }
 
     public void sever() {
@@ -218,10 +217,10 @@ class Player {
 
       for (int i = 0; i < linkCount; i++) {
         // nodeA and nodeB defines a link between these nodes
-        int a = scanner.nextInt();
-        int b = scanner.nextInt();
-        Node nodeA = loadNode(a);
-        Node nodeB = loadNode(b);
+        int idA = scanner.nextInt();
+        int idB = scanner.nextInt();
+        Node nodeA = loadNode(idA);
+        Node nodeB = loadNode(idB);
         nodeA.addLinkWith(nodeB);
       }
 
@@ -247,6 +246,10 @@ class Player {
         int agentId = scanner.nextInt();
         Node agentNode = loadNode(agentId);
         List<Path> exitPaths = findExitPaths(agentNode);
+        if (exitPaths.isEmpty()) {
+          break;
+        }
+
         severShortestPath(exitPaths);
       }
     }

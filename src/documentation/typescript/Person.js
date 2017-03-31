@@ -33,3 +33,4 @@ class Person {
 const bob = new Person('Bob');
 console.log(`${bob.getGreeting()} ${bob.name}`);
 Person.sayHi();
+//# sourceMappingURL=Person.js.map

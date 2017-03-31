@@ -11,6 +11,7 @@
   "author": "Mark Hennessy <mhennessy116@gmail.com>",
   "devDependencies": {
     "@types/jest": "^19.2.2",
+    "@types/node": "^7.0.12",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-eslint": "^7.2.1",

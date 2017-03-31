@@ -1,5 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = require("fs");
 /**
- * This code is meant to be copied into the codingame editor for the Skynet (Medium) puzzle.
+ * This code, i.e. the output JS, is meant to be copied into the codingame editor
+ * for the Skynet (Medium) puzzle.
  * https://www.codingame.com/training/medium/skynet-revolution-episode-1
  *
  * The namespace gets transpiled into a simple IIFE.
@@ -7,15 +11,25 @@
  * It's also needed to avoid naming conflicts with things defined in the global scope.
  * For example, we would not be able to use names such as 'Node' and 'print'
  * without a namespace because they are already defined in the global scope.
- *
- * IMPORTANT: You will need to delete the SpiderMonkey method stubs
- * so that codingame can use the actual implementations.
  */
 var Codingame;
 (function (Codingame) {
-    // SpiderMonkey method stubs
-    const readline = () => '';
-    const print = str => console.log(str);
+    const FUNCTION = 'function';
+    const UNDEFINED = 'undefined';
+    const ENCODING = 'utf8';
+    const RUNNING_IN_CODINGAME_EDITOR = typeof readline === FUNCTION && typeof printErr === FUNCTION;
+    const INPUT_DIR = `${__dirname}/../input.txt`;
+    function out(message) {
+        console.log(message);
+    }
+    function debug(message) {
+        if (RUNNING_IN_CODINGAME_EDITOR) {
+            printErr(message);
+        }
+        else {
+            console.warn(message);
+        }
+    }
     class Comparator {
         static comparing(selectorFunc) {
             return (a, b) => {
@@ -33,26 +47,67 @@ var Codingame;
             };
         }
     }
+    /**
+     * A utility class to read and parse space and newline separated input.
+     * Input is parsed left to right and top to bottom.
+     * If input on the current row is exhausted, then the scanner moves to the next row.
+     */
     class Scanner {
+        constructor() {
+            this.rowIterator = RUNNING_IN_CODINGAME_EDITOR
+                ? this.createInputIterator()
+                : this.createFileIterator();
+        }
+        /**
+         * An ES6 generator function. This is basically a factory method for an iterator
+         * that will read a new line each iteration.
+         */
+        *createInputIterator() {
+            let line;
+            do {
+                line = readline();
+                yield line;
+            } while (line);
+        }
+        /**
+         * Creates an iterator to traverse through a file line by line.
+         */
+        createFileIterator() {
+            return fs_1.readFileSync(INPUT_DIR, ENCODING).split(/\n/)[Symbol.iterator]();
+        }
         nextInt() {
             return parseInt(this.next());
         }
         next() {
-            if (!this.currentLine) {
-                this.moveToNextLine();
+            // if the columnIterator is undefined, then move to the initial row
+            if (!this.columnIterator) {
+                !this.moveToNextRow();
             }
-            let next = this.currentLine.next();
-            if (next.done) {
-                this.moveToNextLine();
-                next = this.currentLine.next();
+            // get the next value on the current row
+            let columnResult = this.columnIterator.next();
+            // if the current row is exhausted, then move to the next row
+            if (columnResult.done) {
+                if (this.moveToNextRow()) {
+                    columnResult = this.columnIterator.next();
+                }
             }
-            return next.value;
+            return columnResult.value;
         }
-        moveToNextLine() {
-            const line = readline();
-            if (line) {
-                this.currentLine = line.split(' ')[Symbol.iterator]();
+        /**
+         * Moves the scanner to the next row.
+         *
+         * @returns {boolean} true if the move to the next row was successful
+         */
+        moveToNextRow() {
+            const rowResult = this.rowIterator.next();
+            // if a next row was not found, then exit
+            if (rowResult.done) {
+                return false;
             }
+            const row = this.rowIterator.next().value;
+            debug(row);
+            this.columnIterator = row.split(' ')[Symbol.iterator]();
+            return true;
         }
     }
     class Node {
@@ -68,7 +123,7 @@ var Codingame;
             this.linkedNodes.delete(node);
             node.linkedNodes.delete(this);
         }
-        linkedNodeCount() {
+        linkCount() {
             return this.linkedNodes.size;
         }
         next(predicate) {
@@ -107,11 +162,11 @@ var Codingame;
             this.nodeB = nodeB;
         }
         weight() {
-            return 100 / (this.nodeA.linkedNodeCount() + this.nodeB.linkedNodeCount());
+            return 100 / (this.nodeA.linkCount() + this.nodeB.linkCount());
         }
         sever() {
             this.nodeA.removeLinkWith(this.nodeB);
-            print(`${this.nodeA.id} ${this.nodeB.id}`);
+            out(`${this.nodeA.id} ${this.nodeB.id}`);
         }
         toString() {
             return JSON.stringify({
@@ -186,10 +241,10 @@ var Codingame;
             const exitNodeCount = this.scanner.nextInt();
             for (let i = 0; i < linkCount; i += 1) {
                 // nodeA and nodeB defines a link between these nodes
-                const a = this.scanner.nextInt();
-                const b = this.scanner.nextInt();
-                const nodeA = this.loadNode(a);
-                const nodeB = this.loadNode(b);
+                const idA = this.scanner.nextInt();
+                const idB = this.scanner.nextInt();
+                const nodeA = this.loadNode(idA);
+                const nodeB = this.loadNode(idB);
                 nodeA.addLinkWith(nodeB);
             }
             for (let i = 0; i < exitNodeCount; i += 1) {
@@ -257,3 +312,4 @@ var Codingame;
 })(Codingame || (Codingame = {}));
 // Entry point
 new Codingame.Game().start();
+//# sourceMappingURL=Player.js.map

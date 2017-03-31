@@ -2,11 +2,12 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "commonjs",
+    "sourceMap": true,
+    "watch": true,
+    "removeComments": false,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "sourceMap": false
+    "preserveConstEnums": true
   },
   "include": [
     "src/**/*"

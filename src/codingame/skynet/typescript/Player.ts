@@ -1,5 +1,8 @@
+import { readFile, readFileSync } from 'fs';
+
 /**
- * This code is meant to be copied into the codingame editor for the Skynet (Medium) puzzle.
+ * This code, i.e. the output JS, is meant to be copied into the codingame editor
+ * for the Skynet (Medium) puzzle.
  * https://www.codingame.com/training/medium/skynet-revolution-episode-1
  *
  * The namespace gets transpiled into a simple IIFE.
@@ -7,14 +10,25 @@
  * It's also needed to avoid naming conflicts with things defined in the global scope.
  * For example, we would not be able to use names such as 'Node' and 'print'
  * without a namespace because they are already defined in the global scope.
- *
- * IMPORTANT: You will need to delete the SpiderMonkey method stubs
- * so that codingame can use the actual implementations.
  */
 namespace Codingame {
-  // SpiderMonkey method stubs
-  const readline: () => string = () => '';
-  const print: (str: string) => void = str => console.log(str);
+  const FUNCTION = 'function';
+  const UNDEFINED = 'undefined';
+  const ENCODING = 'utf8';
+  const RUNNING_IN_CODINGAME_EDITOR = typeof readline === FUNCTION && typeof printErr === FUNCTION;
+  const INPUT_DIR = `${__dirname}/../input.txt`;
+
+  function out(message: string): void {
+    console.log(message);
+  }
+
+  function debug(message: string): void {
+    if (RUNNING_IN_CODINGAME_EDITOR) {
+      printErr(message);
+    } else {
+      console.warn(message);
+    }
+  }
 
   class Comparator {
     static comparing<T>(selectorFunc: (item: T) => number): (a: T, b: T) => number {
@@ -32,32 +46,78 @@ namespace Codingame {
     }
   }
 
+  /**
+   * A utility class to read and parse space and newline separated input.
+   * Input is parsed left to right and top to bottom.
+   * If input on the current row is exhausted, then the scanner moves to the next row.
+   */
   class Scanner {
-    private currentLine: Iterator<string>;
+    private rowIterator: Iterator<string>;
+    private columnIterator: Iterator<string>;
+
+    constructor() {
+      this.rowIterator = RUNNING_IN_CODINGAME_EDITOR
+        ? this.createInputIterator()
+        : this.createFileIterator();
+    }
+
+    /**
+     * An ES6 generator function. This is basically a factory method for an iterator
+     * that will read a new line each iteration.
+     */
+    private *createInputIterator(): Iterator<string> {
+      let line: string;
+      do {
+        line = readline();
+        yield line;
+      } while (line);
+    }
+
+    /**
+     * Creates an iterator to traverse through a file line by line.
+     */
+    private createFileIterator(): Iterator<string> {
+      return readFileSync(INPUT_DIR, ENCODING).split(/\n/)[Symbol.iterator]();
+    }
 
     nextInt(): number {
       return parseInt(this.next());
     }
 
     next(): string {
-      if (!this.currentLine) {
-        this.moveToNextLine();
+      // if the columnIterator is undefined, then move to the initial row
+      if (!this.columnIterator) {
+        !this.moveToNextRow();
       }
 
-      let next: IteratorResult<string> = this.currentLine.next();
-      if (next.done) {
-        this.moveToNextLine();
-        next = this.currentLine.next();
+      // get the next value on the current row
+      let columnResult: IteratorResult<string> = this.columnIterator.next();
+      // if the current row is exhausted, then move to the next row
+      if (columnResult.done) {
+        if (this.moveToNextRow()) {
+          columnResult = this.columnIterator.next();
+        }
       }
 
-      return next.value;
+      return columnResult.value;
     }
 
-    moveToNextLine(): void {
-      const line: string = readline();
-      if (line) {
-        this.currentLine = line.split(' ')[Symbol.iterator]();
+    /**
+     * Moves the scanner to the next row.
+     *
+     * @returns {boolean} true if the move to the next row was successful
+     */
+    moveToNextRow(): boolean {
+      const rowResult: IteratorResult<string> = this.rowIterator.next();
+      // if a next row was not found, then exit
+      if (rowResult.done) {
+        return false;
       }
+
+      const row: string = this.rowIterator.next().value;
+      debug(row);
+      this.columnIterator = row.split(' ')[Symbol.iterator]();
+      return true;
     }
   }
 
@@ -81,7 +141,7 @@ namespace Codingame {
       node.linkedNodes.delete(this);
     }
 
-    linkedNodeCount(): number {
+    linkCount(): number {
       return this.linkedNodes.size;
     }
 
@@ -130,13 +190,13 @@ namespace Codingame {
     }
 
     weight(): number {
-      return 100 / (this.nodeA.linkedNodeCount() + this.nodeB.linkedNodeCount());
+      return 100 / (this.nodeA.linkCount() + this.nodeB.linkCount());
     }
 
     sever(): void {
       this.nodeA.removeLinkWith(this.nodeB);
 
-      print(`${this.nodeA.id} ${this.nodeB.id}`);
+      out(`${this.nodeA.id} ${this.nodeB.id}`);
     }
 
     toString(): string {
@@ -236,10 +296,10 @@ namespace Codingame {
 
       for (let i: number = 0; i < linkCount; i += 1) {
         // nodeA and nodeB defines a link between these nodes
-        const a: number = this.scanner.nextInt();
-        const b: number = this.scanner.nextInt();
-        const nodeA: Node = this.loadNode(a);
-        const nodeB: Node = this.loadNode(b);
+        const idA: number = this.scanner.nextInt();
+        const idB: number = this.scanner.nextInt();
+        const nodeA: Node = this.loadNode(idA);
+        const nodeB: Node = this.loadNode(idB);
         nodeA.addLinkWith(nodeB);
       }
 
