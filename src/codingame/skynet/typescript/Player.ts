@@ -136,6 +136,9 @@ namespace Codingame {
     private nodeIterator: Iterator<Node>;
 
     constructor(readonly id: number) {
+      // Everything, even primitives such as numbers and booleans,
+      // default to undefined if not initialized with a value.
+      this.isExitNode = false;
       this.linkedNodes = new Set<Node>();
     }
 
@@ -179,7 +182,7 @@ namespace Codingame {
       return this.nodeIterator;
     }
 
-    toString(): String {
+    toString(): string {
       return JSON.stringify({
         id: this.id,
         isExitNode: this.isExitNode,
@@ -209,8 +212,8 @@ namespace Codingame {
 
     toString(): string {
       return JSON.stringify({
-        nodeA: this.nodeA,
-        nodeB: this.nodeB,
+        nodeA: JSON.parse(this.nodeA.toString()),
+        nodeB: JSON.parse(this.nodeB.toString()),
       });
     }
   }
@@ -228,11 +231,19 @@ namespace Codingame {
         const link: Link = new Link(this.headNode, node);
         this.links.push(link);
       }
+
       this.headNode = node;
     }
 
-    linkCount(): number {
+    length(): number {
       return this.links.length;
+    }
+
+    sever(): void {
+      const link: Link = this.mostImportantLink();
+      if (link) {
+        link.sever();
+      }
     }
 
     mostImportantLink(): Link {
@@ -244,7 +255,7 @@ namespace Codingame {
 
     toString(): string {
       return JSON.stringify({
-        links: this.links,
+        links: this.links.map(link => JSON.parse(link.toString())),
       });
     }
   }
@@ -273,7 +284,7 @@ namespace Codingame {
     }
 
     hasNodes(): boolean {
-      return this.nodes.length > 0;
+      return !!this.nodes.length;
     }
 
     build(): Path {
@@ -373,19 +384,13 @@ namespace Codingame {
     }
 
     severShortestPath(paths: Path[]): void {
-      const sortedPaths: Path[] = paths
-        .sort(Comparator.comparing<Path>(path => path.linkCount()));
-
-      if (sortedPaths.length > 0) {
-        this.severPath(sortedPaths[0]);
+      if (!paths.length) {
+        return;
       }
-    }
 
-    severPath(path: Path): void {
-      const link: Link = path.mostImportantLink();
-      if (link) {
-        link.sever();
-      }
+      paths
+        .sort(Comparator.comparing<Path>(path => path.length()))[0]
+        .sever();
     }
   }
 }

@@ -118,6 +118,9 @@ var Codingame;
     class Node {
         constructor(id) {
             this.id = id;
+            // Everything, even primitives such as numbers and booleans,
+            // default to undefined if not initialized with a value.
+            this.isExitNode = false;
             this.linkedNodes = new Set();
         }
         addLinkWith(node) {
@@ -175,8 +178,8 @@ var Codingame;
         }
         toString() {
             return JSON.stringify({
-                nodeA: this.nodeA,
-                nodeB: this.nodeB,
+                nodeA: JSON.parse(this.nodeA.toString()),
+                nodeB: JSON.parse(this.nodeB.toString()),
             });
         }
     }
@@ -191,8 +194,14 @@ var Codingame;
             }
             this.headNode = node;
         }
-        linkCount() {
+        length() {
             return this.links.length;
+        }
+        sever() {
+            const link = this.mostImportantLink();
+            if (link) {
+                link.sever();
+            }
         }
         mostImportantLink() {
             const sortedLinks = this.links
@@ -202,7 +211,7 @@ var Codingame;
         }
         toString() {
             return JSON.stringify({
-                links: this.links,
+                links: this.links.map(link => JSON.parse(link.toString())),
             });
         }
     }
@@ -223,7 +232,7 @@ var Codingame;
             return this.nodes.indexOf(node) !== -1;
         }
         hasNodes() {
-            return this.nodes.length > 0;
+            return !!this.nodes.length;
         }
         build() {
             const path = new Path();
@@ -301,17 +310,12 @@ var Codingame;
             return paths;
         }
         severShortestPath(paths) {
-            const sortedPaths = paths
-                .sort(Comparator.comparing(path => path.linkCount()));
-            if (sortedPaths.length > 0) {
-                this.severPath(sortedPaths[0]);
+            if (!paths.length) {
+                return;
             }
-        }
-        severPath(path) {
-            const link = path.mostImportantLink();
-            if (link) {
-                link.sever();
-            }
+            paths
+                .sort(Comparator.comparing(path => path.length()))[0]
+                .sever();
         }
     }
     Codingame.Game = Game;

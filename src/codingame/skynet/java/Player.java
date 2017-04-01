@@ -95,7 +95,7 @@ class Player {
       return "Node{" +
         "id=" + id +
         ", isExitNode=" + isExitNode() +
-        ", linkCount=" + linkCount() +
+        ", length=" + linkCount() +
         '}';
     }
   }
