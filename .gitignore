@@ -13,3 +13,4 @@ docs/
 .vscode/
 
 *.js.map
+**/typescript/**/*.js
