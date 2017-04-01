@@ -29,8 +29,11 @@ namespace Codingame {
     }
   }
 
+
+  type comparatorFunc<T> = (a: T, b: T) => number;
   class Comparator {
-    static comparing<T>(selectorFunc: (item: T) => number): (a: T, b: T) => number {
+
+    static compareAscending<T>(selectorFunc: (item: T) => number): comparatorFunc<T> {
       return (a, b) => {
         const valueA: number = selectorFunc(a);
         const valueB: number = selectorFunc(b);
@@ -42,6 +45,11 @@ namespace Codingame {
           return 0;
         }
       };
+    }
+
+    static compareDescending<T>(selectorFunc: (item: T) => number): comparatorFunc<T> {
+      const compareAscending: comparatorFunc<T> = Comparator.compareAscending(selectorFunc);
+      return (a, b) => compareAscending(b, a);
     }
   }
 
@@ -247,10 +255,12 @@ namespace Codingame {
     }
 
     mostImportantLink(): Link {
-      const sortedLinks: Link[] = this.links
-        .sort(Comparator.comparing<Link>(link => link.weight()))
-        .reverse();
-      return sortedLinks.length > 0 ? sortedLinks[0] : null;
+      if (!this.links.length) {
+        return;
+      }
+
+      return this.links
+        .sort(Comparator.compareDescending<Link>(link => link.weight()))[0];
     }
 
     toString(): string {
@@ -389,7 +399,7 @@ namespace Codingame {
       }
 
       paths
-        .sort(Comparator.comparing<Path>(path => path.length()))[0]
+        .sort(Comparator.compareAscending<Path>(path => path.length()))[0]
         .sever();
     }
   }

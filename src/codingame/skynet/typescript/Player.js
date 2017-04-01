@@ -27,7 +27,7 @@ var Codingame;
         }
     }
     class Comparator {
-        static comparing(selectorFunc) {
+        static compareAscending(selectorFunc) {
             return (a, b) => {
                 const valueA = selectorFunc(a);
                 const valueB = selectorFunc(b);
@@ -41,6 +41,10 @@ var Codingame;
                     return 0;
                 }
             };
+        }
+        static compareDescending(selectorFunc) {
+            const compareAscending = Comparator.compareAscending(selectorFunc);
+            return (a, b) => compareAscending(b, a);
         }
     }
     /**
@@ -204,10 +208,11 @@ var Codingame;
             }
         }
         mostImportantLink() {
-            const sortedLinks = this.links
-                .sort(Comparator.comparing(link => link.weight()))
-                .reverse();
-            return sortedLinks.length > 0 ? sortedLinks[0] : null;
+            if (!this.links.length) {
+                return;
+            }
+            return this.links
+                .sort(Comparator.compareDescending(link => link.weight()))[0];
         }
         toString() {
             return JSON.stringify({
@@ -314,7 +319,7 @@ var Codingame;
                 return;
             }
             paths
-                .sort(Comparator.comparing(path => path.length()))[0]
+                .sort(Comparator.compareAscending(path => path.length()))[0]
                 .sever();
         }
     }
