@@ -1,16 +1,26 @@
+# Ignore OS/filesystem metadata files
 .DS_Store
 
-node_modules
-npm-debug.log
-yarn-error.log
-
-out/
-coverage/
-docs/
-
+# Ignore IDE metadata files
 .idea
 *.iml
 .vscode/
 
-*.js.map
+# Ignore npm directories and related log files
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Ignore generated build directories
+out/
+coverage/
+docs/
+
+# Exclude typescript output js files
 **/typescript/**/*.js
+
+# Include typescript test js files in test directories
+!**/typescript/**/__tests__/*.js
+
+# Ignore generated source map files
+*.js.map
