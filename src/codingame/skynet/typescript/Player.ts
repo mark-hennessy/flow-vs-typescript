@@ -140,28 +140,28 @@ namespace Codingame {
   class Node {
     isExitNode: boolean;
 
-    private linkedNodes: Set<Node>;
-    private nodeIterator: Iterator<Node>;
+    private links: Set<Node>;
+    private linkIterator: Iterator<Node>;
 
     constructor(readonly id: number) {
       // Everything, even primitives such as numbers and booleans,
       // default to undefined if not initialized with a value.
       this.isExitNode = false;
-      this.linkedNodes = new Set<Node>();
+      this.links = new Set<Node>();
     }
 
-    addLinkWith(node: Node) : void {
-      this.linkedNodes.add(node);
-      node.linkedNodes.add(this);
+    addLinkWith(node: Node): void {
+      this.links.add(node);
+      node.links.add(this);
     }
 
     removeLinkWith(node: Node): void {
-      this.linkedNodes.delete(node);
-      node.linkedNodes.delete(this);
+      this.links.delete(node);
+      node.links.delete(this);
     }
 
     linkCount(): number {
-      return this.linkedNodes.size;
+      return this.links.size;
     }
 
     next(predicate: (node: Node) => boolean): Node {
@@ -180,14 +180,22 @@ namespace Codingame {
     }
 
     resetNodeIterator(): void {
-      this.nodeIterator = null;
+      this.linkIterator = null;
     }
 
     private getNodeIterator(): Iterator<Node> {
-      if (!this.nodeIterator) {
-        this.nodeIterator = this.linkedNodes[Symbol.iterator]();
+      if (!this.linkIterator) {
+        this.linkIterator = this.links[Symbol.iterator]();
       }
-      return this.nodeIterator;
+      return this.linkIterator;
+    }
+
+    toString(): string {
+      return JSON.stringify({
+        id: this.id,
+        isExitNode: this.isExitNode,
+        linkCount: this.links.size,
+      });
     }
   }
 
