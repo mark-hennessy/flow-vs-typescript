@@ -215,9 +215,7 @@ var Codingame;
                 .sort(Comparator.compareDescending(link => link.weight()))[0];
         }
         toString() {
-            return JSON.stringify({
-                links: this.links.map(link => JSON.parse(link.toString())),
-            });
+            return this.links.toString();
         }
     }
     class PathBuilder {

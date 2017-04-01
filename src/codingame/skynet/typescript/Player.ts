@@ -264,9 +264,7 @@ namespace Codingame {
     }
 
     toString(): string {
-      return JSON.stringify({
-        links: this.links.map(link => JSON.parse(link.toString())),
-      });
+      return this.links.toString();
     }
   }
 
