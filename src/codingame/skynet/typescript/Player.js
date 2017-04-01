@@ -13,8 +13,8 @@ var Codingame;
 (function (Codingame) {
     const FUNCTION = 'function';
     const UNDEFINED = 'undefined';
-    const ENCODING = 'utf8';
-    const RUNNING_IN_CODINGAME_EDITOR = typeof readline === FUNCTION && typeof printErr === FUNCTION;
+    const RUNNING_IN_CODINGAME_EDITOR = typeof readline === FUNCTION
+        && typeof printErr === FUNCTION;
     function output(message) {
         console.log(message);
     }
@@ -51,14 +51,14 @@ var Codingame;
     class Scanner {
         constructor() {
             this.rowIterator = RUNNING_IN_CODINGAME_EDITOR
-                ? this.createInputIterator()
-                : this.createFileIterator();
+                ? Scanner.createInputIterator()
+                : Scanner.createFileIterator();
         }
         /**
          * An ES6 generator function. This is basically a factory method for an iterator
          * that will read a new line each iteration.
          */
-        *createInputIterator() {
+        static *createInputIterator() {
             let line;
             do {
                 line = readline();
@@ -68,10 +68,11 @@ var Codingame;
         /**
          * Creates an iterator to traverse through a file line by line.
          */
-        createFileIterator() {
+        static createFileIterator() {
             // The __dirname variable is not available to codingame, so we have to hide it in this method.
             // It's safe here because codingame does not enter this method.
             const INPUT_DIR = `${__dirname}/../input.txt`;
+            const ENCODING = 'utf8';
             // It would be better to use an ES6 import statement to import the 'fs' module,
             // but import statements must occur at the top of the file...and that would crash
             // codingame because codingame/SpiderMonkey doesn't support ES6 imports yet.
@@ -300,7 +301,8 @@ var Codingame;
             return paths;
         }
         severShortestPath(paths) {
-            const sortedPaths = paths.sort(Comparator.comparing(path => path.linkCount()));
+            const sortedPaths = paths
+                .sort(Comparator.comparing(path => path.linkCount()));
             if (sortedPaths.length > 0) {
                 this.severPath(sortedPaths[0]);
             }

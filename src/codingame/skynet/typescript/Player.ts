@@ -10,10 +10,12 @@
  * without a namespace because they are already defined in the global scope.
  */
 namespace Codingame {
-  const FUNCTION = 'function';
-  const UNDEFINED = 'undefined';
-  const ENCODING = 'utf8';
-  const RUNNING_IN_CODINGAME_EDITOR = typeof readline === FUNCTION && typeof printErr === FUNCTION;
+  const FUNCTION: string = 'function';
+  const UNDEFINED: string = 'undefined';
+
+  const RUNNING_IN_CODINGAME_EDITOR: boolean =
+    typeof readline === FUNCTION
+    && typeof printErr === FUNCTION;
 
   function output(message: string): void {
     console.log(message);
@@ -30,8 +32,8 @@ namespace Codingame {
   class Comparator {
     static comparing<T>(selectorFunc: (item: T) => number): (a: T, b: T) => number {
       return (a, b) => {
-        const valueA = selectorFunc(a);
-        const valueB = selectorFunc(b);
+        const valueA: number = selectorFunc(a);
+        const valueB: number = selectorFunc(b);
         if (valueA < valueB) {
           return -1;
         } else if (valueA > valueB) {
@@ -54,15 +56,15 @@ namespace Codingame {
 
     constructor() {
       this.rowIterator = RUNNING_IN_CODINGAME_EDITOR
-        ? this.createInputIterator()
-        : this.createFileIterator();
+        ? Scanner.createInputIterator()
+        : Scanner.createFileIterator();
     }
 
     /**
      * An ES6 generator function. This is basically a factory method for an iterator
      * that will read a new line each iteration.
      */
-    private *createInputIterator(): Iterator<string> {
+    private static *createInputIterator(): Iterator<string> {
       let line: string;
       do {
         line = readline();
@@ -73,15 +75,16 @@ namespace Codingame {
     /**
      * Creates an iterator to traverse through a file line by line.
      */
-    private createFileIterator(): Iterator<string> {
+    private static createFileIterator(): Iterator<string> {
       // The __dirname variable is not available to codingame, so we have to hide it in this method.
       // It's safe here because codingame does not enter this method.
-      const INPUT_DIR = `${__dirname}/../input.txt`;
+      const INPUT_DIR: string = `${__dirname}/../input.txt`;
+      const ENCODING: string = 'utf8';
       // It would be better to use an ES6 import statement to import the 'fs' module,
       // but import statements must occur at the top of the file...and that would crash
       // codingame because codingame/SpiderMonkey doesn't support ES6 imports yet.
       // We'll just have to settle for an old CommonJS require statement.
-      const fs = require('fs');
+      const fs: any = require('fs');
       return fs.readFileSync(INPUT_DIR, ENCODING).split(/\n/)[Symbol.iterator]();
     }
 
@@ -233,7 +236,7 @@ namespace Codingame {
     }
 
     mostImportantLink(): Link {
-      const sortedLinks = this.links
+      const sortedLinks: Link[] = this.links
         .sort(Comparator.comparing<Link>(link => link.weight()))
         .reverse();
       return sortedLinks.length > 0 ? sortedLinks[0] : null;
@@ -370,14 +373,16 @@ namespace Codingame {
     }
 
     severShortestPath(paths: Path[]): void {
-      const sortedPaths = paths.sort(Comparator.comparing<Path>(path => path.linkCount()));
+      const sortedPaths: Path[] = paths
+        .sort(Comparator.comparing<Path>(path => path.linkCount()));
+
       if (sortedPaths.length > 0) {
         this.severPath(sortedPaths[0]);
       }
     }
 
     severPath(path: Path): void {
-      const link = path.mostImportantLink();
+      const link: Link = path.mostImportantLink();
       if (link) {
         link.sever();
       }
