@@ -189,14 +189,6 @@ namespace Codingame {
       }
       return this.nodeIterator;
     }
-
-    toString(): string {
-      return JSON.stringify({
-        id: this.id,
-        isExitNode: this.isExitNode,
-        linkedNodesCount: this.linkedNodes.size,
-      });
-    }
   }
 
   class Link {
@@ -216,13 +208,6 @@ namespace Codingame {
       this.nodeA.removeLinkWith(this.nodeB);
 
       output(`${this.nodeA.id} ${this.nodeB.id}`);
-    }
-
-    toString(): string {
-      return JSON.stringify({
-        nodeA: JSON.parse(this.nodeA.toString()),
-        nodeB: JSON.parse(this.nodeB.toString()),
-      });
     }
   }
 
@@ -261,10 +246,6 @@ namespace Codingame {
 
       return this.links
         .sort(Comparator.compareDescending<Link>(link => link.weight()))[0];
-    }
-
-    toString(): string {
-      return this.links.toString();
     }
   }
 
