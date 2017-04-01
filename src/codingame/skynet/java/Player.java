@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
@@ -32,13 +31,13 @@ class Player {
     private int id;
     private boolean exitNode;
 
-    private Set<Node> linkedNodes;
-    private Iterator<Node> nodeIterator;
+    private Set<Node> links;
+    private Iterator<Node> linkIterator;
 
     public Node(int id) {
       this.id = id;
 
-      linkedNodes = new HashSet<>();
+      links = new HashSet<>();
     }
 
     public int getId() {
@@ -54,40 +53,38 @@ class Player {
     }
 
     public void addLinkWith(Node node) {
-      linkedNodes.add(node);
-      node.linkedNodes.add(this);
+      links.add(node);
+      node.links.add(this);
     }
 
     public void removeLinkWith(Node node) {
-      linkedNodes.remove(node);
-      node.linkedNodes.remove(this);
+      links.remove(node);
+      node.links.remove(this);
     }
 
     public int linkCount() {
-      return linkedNodes.size();
+      return links.size();
     }
 
-    public Node next(Predicate<Node> predicate) {
-      Node next = null;
-      Iterator<Node> nodeIterator = getNodeIterator();
-      while (next == null && nodeIterator.hasNext()) {
-        Node candidate = nodeIterator.next();
-        if (predicate.test(candidate)) {
-          next = candidate;
+    public Node nextMatchingLink(Predicate<Node> predicate) {
+      if (linkIterator == null) {
+        linkIterator = links.iterator();
+      }
+
+      while (true) {
+        if (!linkIterator.hasNext()) {
+          return null;
+        }
+
+        Node node = linkIterator.next();
+        if (predicate.test(node)) {
+          return node;
         }
       }
-      return next;
     }
 
-    public void resetNodeIterator() {
-      nodeIterator = null;
-    }
-
-    private Iterator<Node> getNodeIterator() {
-      if (nodeIterator == null) {
-        nodeIterator = linkedNodes.iterator();
-      }
-      return nodeIterator;
+    public void resetLinkIterator() {
+      linkIterator = null;
     }
 
     @Override
@@ -95,7 +92,7 @@ class Player {
       return "Node{" +
         "id=" + id +
         ", isExitNode=" + isExitNode() +
-        ", length=" + linkCount() +
+        ", linkCount=" + linkCount() +
         '}';
     }
   }
@@ -113,7 +110,7 @@ class Player {
       return 100 / (nodeA.linkCount() + nodeB.linkCount());
     }
 
-    public void sever() {
+    public void destroy() {
       nodeA.removeLinkWith(nodeB);
 
       System.out.println(nodeA.getId() + " " + nodeB.getId());
@@ -148,10 +145,16 @@ class Player {
       return links.size();
     }
 
-    public Optional<Link> mostImportantLink() {
-      return links.stream()
+    public void destroy() {
+      if (links.isEmpty()) {
+        return;
+      }
+
+      links.stream()
         .sorted(Comparator.comparing(Link::weight).reversed())
-        .findFirst();
+        .findFirst()
+        .get()
+        .destroy();
     }
 
     @Override
@@ -250,16 +253,20 @@ class Player {
           break;
         }
 
-        severShortestPath(exitPaths);
+        destroyShortestPath(exitPaths);
       }
     }
 
     public List<Path> findExitPaths(Node originNode) {
-      List<Path> paths = new ArrayList<>();
       PathBuilder pathBuilder = new PathBuilder();
       pathBuilder.push(originNode);
+
+      Predicate<Node> notAlreadyVisited = node -> !pathBuilder.contains(node);
+
+      List<Path> paths = new ArrayList<>();
+
       while (pathBuilder.hasNodes()) {
-        Node nextNode = pathBuilder.peek().next(node -> !pathBuilder.contains(node));
+        Node nextNode = pathBuilder.peek().nextMatchingLink(notAlreadyVisited);
         if (nextNode != null) {
           pathBuilder.push(nextNode);
           if (nextNode.isExitNode()) {
@@ -267,22 +274,25 @@ class Player {
             nextNode = null;
           }
         }
+
         if (nextNode == null) {
-          pathBuilder.pop().resetNodeIterator();
+          pathBuilder.pop().resetLinkIterator();
         }
       }
+      
       return paths;
     }
 
-    public void severShortestPath(List<Path> paths) {
+    public void destroyShortestPath(List<Path> paths) {
+      if (paths.isEmpty()) {
+        return;
+      }
+
       paths.stream()
         .sorted(Comparator.comparing(Path::linkCount))
         .findFirst()
-        .ifPresent(this::severPath);
-    }
-
-    public void severPath(Path path) {
-      path.mostImportantLink().ifPresent(Link::sever);
+        .get()
+        .destroy();
     }
   }
 }

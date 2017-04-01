@@ -164,10 +164,13 @@ namespace Codingame {
       return this.links.size;
     }
 
-    next(predicate: (node: Node) => boolean): Node {
-      const nodeIterator: Iterator<Node> = this.getNodeIterator();
+    nextMatchingLink(predicate: (node: Node) => boolean): Node {
+      if (!this.linkIterator) {
+        this.linkIterator = this.links[Symbol.iterator]();
+      }
+
       while (true) {
-        const result: IteratorResult<Node> = nodeIterator.next();
+        const result: IteratorResult<Node> = this.linkIterator.next();
         if (result.done) {
           return null;
         }
@@ -179,15 +182,8 @@ namespace Codingame {
       }
     }
 
-    resetNodeIterator(): void {
+    resetLinkIterator(): void {
       this.linkIterator = null;
-    }
-
-    private getNodeIterator(): Iterator<Node> {
-      if (!this.linkIterator) {
-        this.linkIterator = this.links[Symbol.iterator]();
-      }
-      return this.linkIterator;
     }
 
     toString(): string {
@@ -212,7 +208,7 @@ namespace Codingame {
       return 100 / (this.nodeA.linkCount() + this.nodeB.linkCount());
     }
 
-    sever(): void {
+    destroy(): void {
       this.nodeA.removeLinkWith(this.nodeB);
 
       output(`${this.nodeA.id} ${this.nodeB.id}`);
@@ -240,20 +236,15 @@ namespace Codingame {
       return this.links.length;
     }
 
-    sever(): void {
-      const link: Link = this.mostImportantLink();
-      if (link) {
-        link.sever();
-      }
-    }
-
-    mostImportantLink(): Link {
+    destroy(): void {
       if (!this.links.length) {
         return;
       }
 
-      return this.links
+      const mostImportantLink: Link = this.links
         .sort(Comparator.compareDescending<Link>(link => link.weight()))[0];
+
+      mostImportantLink.destroy();
     }
   }
 
@@ -346,7 +337,7 @@ namespace Codingame {
           break;
         }
 
-        this.severShortestPath(exitPaths);
+        this.destroyShortestPath(exitPaths);
       }
     }
 
@@ -354,7 +345,7 @@ namespace Codingame {
       const pathBuilder: PathBuilder = new PathBuilder();
       pathBuilder.push(originNode);
 
-      const notAlreadyVisitedNode: (node: Node) => boolean =
+      const notAlreadyVisited: (node: Node) => boolean =
         node => !pathBuilder.contains(node);
 
       const paths: Path[] = [];
@@ -362,7 +353,7 @@ namespace Codingame {
       while (pathBuilder.hasNodes()) {
         let nextNode: Node = pathBuilder
           .peek()
-          .next(notAlreadyVisitedNode);
+          .nextMatchingLink(notAlreadyVisited);
 
         if (nextNode) {
           pathBuilder.push(nextNode);
@@ -373,21 +364,21 @@ namespace Codingame {
         }
 
         if (!nextNode) {
-          pathBuilder.pop().resetNodeIterator();
+          pathBuilder.pop().resetLinkIterator();
         }
       }
 
       return paths;
     }
 
-    severShortestPath(paths: Path[]): void {
+    destroyShortestPath(paths: Path[]): void {
       if (!paths.length) {
         return;
       }
 
       paths
         .sort(Comparator.compareAscending<Path>(path => path.length()))[0]
-        .sever();
+        .destroy();
     }
   }
 }
