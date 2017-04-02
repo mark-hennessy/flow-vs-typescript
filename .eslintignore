@@ -1,3 +1,7 @@
 **/node_modules
 **/webpack.config.js
 **/typescript
+/bin
+/out
+/coverage
+/docs
