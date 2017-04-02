@@ -1,8 +1,6 @@
 // @flow
 /* eslint-disable no-undef,no-console */
 
-import 'babel-polyfill';
-
 /**
  * This code, i.e. the output JS, is meant to be copied into the codingame editor
  * for the Skynet (Medium) puzzle.
