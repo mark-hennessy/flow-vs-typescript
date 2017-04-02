@@ -9,16 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Stack;
-import java.util.function.Predicate;
 
 /**
  * This code is meant to be copied into the codingame editor for the Skynet (Medium) puzzle.
  * https://www.codingame.com/training/medium/skynet-revolution-episode-1
- *
+ * <p>
  * The class must be called Player and may not have an access modifier,
  * otherwise codingame will not recognize it.
- *
+ * <p>
  * IMPORTANT: You will need to delete the package declaration because codingame does not support packages.
  */
 class Player {
@@ -27,12 +25,11 @@ class Player {
     new Game().start();
   }
 
-  public static class Node {
+  public static class Node implements Iterable<Node> {
     private int id;
     private boolean exitNode;
 
     private Set<Node> connections;
-    private Iterator<Node> connectionIterator;
 
     public Node(int id) {
       this.id = id;
@@ -62,29 +59,13 @@ class Player {
       node.connections.remove(this);
     }
 
-    public int connectionCount() {
+    public int getConnectionCount() {
       return connections.size();
     }
 
-    public Node nextMatchingConnection(Predicate<Node> predicate) {
-      if (connectionIterator == null) {
-        connectionIterator = connections.iterator();
-      }
-
-      while (true) {
-        if (!connectionIterator.hasNext()) {
-          return null;
-        }
-
-        Node node = connectionIterator.next();
-        if (predicate.test(node)) {
-          return node;
-        }
-      }
-    }
-
-    public void resetConnectionIterator() {
-      connectionIterator = null;
+    @Override
+    public Iterator<Node> iterator() {
+      return connections.iterator();
     }
 
     @Override
@@ -92,7 +73,7 @@ class Player {
       return "Node{" +
         "id=" + id +
         ", isExitNode=" + isExitNode() +
-        ", connectionCount=" + connectionCount() +
+        ", connectionCount=" + getConnectionCount() +
         '}';
     }
   }
@@ -109,7 +90,7 @@ class Player {
     public int calculateImportance() {
       // links between nodes with few connections are more important because
       // severing them is more likely to result in dead-ends.
-      return 100 / (nodeA.connectionCount() + nodeB.connectionCount());
+      return 100 / (nodeA.getConnectionCount() + nodeB.getConnectionCount());
     }
 
     public void sever() {
@@ -158,11 +139,10 @@ class Player {
 
     public NodeLoader(Scanner scanner) {
       this.scanner = scanner;
-
       nodeRegistry = new HashMap<>();
     }
 
-    private void loadInitialNodes() {
+    public void loadInitialNodes() {
       // the total number of nodes in the level, including the gateways
       int nodeCount = scanner.nextInt();
       // the number of links
@@ -187,7 +167,7 @@ class Player {
       }
     }
 
-    private Node loadNode(int nodeId) {
+    public Node loadNode(int nodeId) {
       if (!nodeRegistry.containsKey(nodeId)) {
         nodeRegistry.put(nodeId, new Node(nodeId));
       }
@@ -212,7 +192,10 @@ class Player {
         // the index of the node on which the agent is positioned this turn
         int agentId = scanner.nextInt();
         Node agentNode = nodeLoader.loadNode(agentId);
-        List<Path> exitPaths = findExitPaths(agentNode);
+        List<Path> exitPaths = new ArrayList<>();
+        List<Node> previouslyVisitedNodes = new ArrayList<>();
+        previouslyVisitedNodes.add(agentNode);
+        populateExitPaths(exitPaths, previouslyVisitedNodes);
         if (exitPaths.isEmpty()) {
           break;
         }
@@ -226,30 +209,36 @@ class Player {
       }
     }
 
-    public List<Path> findExitPaths(Node originNode) {
-      Stack<Node> visitedNodes = new Stack<>();
-      visitedNodes.push(originNode);
+    private void populateExitPaths(List<Path> exitPaths, List<Node> previouslyVisitedNodes) {
+      Node currentNode = previouslyVisitedNodes.get(previouslyVisitedNodes.size() - 1);
 
-      Predicate<Node> notAlreadyVisited = node -> !visitedNodes.contains(node);
-
-      List<Path> paths = new ArrayList<>();
-
-      while (!visitedNodes.isEmpty()) {
-        Node nextNode = visitedNodes.peek().nextMatchingConnection(notAlreadyVisited);
-        if (nextNode != null) {
-          visitedNodes.push(nextNode);
-          if (nextNode.isExitNode()) {
-            paths.add(new Path(visitedNodes));
-            nextNode = null;
-          }
+      for (Node connection : currentNode) {
+        boolean alreadyVisited = previouslyVisitedNodes.contains(connection);
+        if (alreadyVisited) {
+          continue;
         }
 
-        if (nextNode == null) {
-          visitedNodes.pop().resetConnectionIterator();
+        List<Node> visitedNodes = new ArrayList<>(previouslyVisitedNodes);
+        visitedNodes.add(connection);
+
+        if (connection.isExitNode()) {
+          exitPaths.add(new Path(visitedNodes));
+          // Use 'return' instead of 'continue' as a performance optimization.
+          // Without this we would occasionally fail the 'Triple star' test case with
+          // the following error: 'Timeout: your program did not provide an input in due time.'
+          // It's safe to assume that a node will only connect to 0 or 1 exit nodes.
+          // We can assert that if this node is an exit node, then none of its siblings are.
+          // Some siblings may have indirect paths to exit nodes which our algorithm will skip.
+          // This is acceptable because any indirect paths that siblings may have are
+          // not relevant to us because our goal is to sever the shortest exit path for each
+          // round of the game and indirect sibling paths are guaranteed to be longer than the
+          // exit path that we found.
+          return;
         }
+
+        // recursive call
+        this.populateExitPaths(exitPaths, visitedNodes);
       }
-
-      return paths;
     }
   }
 }

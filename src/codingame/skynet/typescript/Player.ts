@@ -308,7 +308,7 @@ namespace Codingame {
       }
     }
 
-    populateExitPaths(exitPaths: Path[], ...previouslyVisitedNodes: Node[]): void {
+    private populateExitPaths(exitPaths: Path[], ...previouslyVisitedNodes: Node[]): void {
       const currentNode: Node = previouslyVisitedNodes[previouslyVisitedNodes.length - 1];
 
       // Prior to Firefox 51, using the for...of loop construct with the const keyword
