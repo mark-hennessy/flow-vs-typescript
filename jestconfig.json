@@ -12,9 +12,6 @@
     "node_modules",
     "<rootDir>/src"
   ],
-  "transform": {
-    "^.+\\.jsx?$": "babel-jest"
-  },
   "testRegex": "(/__tests__/.*|\\-(test|spec)|\\.(test|spec))\\.(ts|tsx|js)$",
   "moduleFileExtensions": [
     "ts",
