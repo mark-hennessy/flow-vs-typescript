@@ -77,12 +77,18 @@ class Scanner {
   /**
    * An ES6 generator function. This is basically a factory method for an iterator
    * that will read a new line each iteration.
+   *
+   * This is commented out because it causes Babel to call helper functions
+   * which are only available when bundling babel-polyfill with a tool
+   * such as webpack. Having this commented out allows us to copy/paste
+   * the Bable output JS file directly into the codingame editor
+   * without relying on a bundler such as webpack.
    */
-  static* _createInputIterator(): Iterator<string> {
-    while (true) {
-      yield readline();
-    }
-  }
+  // static* _createInputIterator(): Iterator<string> {
+  //   while (true) {
+  //     yield readline();
+  //   }
+  // }
 
   // Suppress "Flow: property `@@iterator` of $Iterator. Property not found in object literal
   // $FlowFixMe
