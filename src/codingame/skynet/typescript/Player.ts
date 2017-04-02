@@ -10,10 +10,10 @@
  * without a namespace because they are already defined in the global scope.
  */
 namespace Codingame {
-  const FUNCTION: string = 'function';
-  const UNDEFINED: string = 'undefined';
 
   const DEBUG_OUTPUT_ENABLED: boolean = false;
+
+  const FUNCTION: string = 'function';
 
   const RUNNING_IN_CODINGAME_EDITOR: boolean =
     typeof readline === FUNCTION
@@ -40,22 +40,21 @@ namespace Codingame {
   class Comparator {
 
     static compareAscending<T>(selectorFunc: (item: T) => number): comparatorFunc<T> {
-      return (a, b) => {
+      return (a: T, b: T) => {
         const valueA: number = selectorFunc(a);
         const valueB: number = selectorFunc(b);
         if (valueA < valueB) {
           return -1;
         } else if (valueA > valueB) {
           return 1;
-        } else {
-          return 0;
         }
+        return 0;
       };
     }
 
     static compareDescending<T>(selectorFunc: (item: T) => number): comparatorFunc<T> {
       const compareAscending: comparatorFunc<T> = Comparator.compareAscending(selectorFunc);
-      return (a, b) => compareAscending(b, a);
+      return (a: T, b: T) => compareAscending(b, a);
     }
   }
 
@@ -121,7 +120,7 @@ namespace Codingame {
         }
       }
 
-      return columnResult.value;
+      return columnResult.value || '';
     }
 
     /**
@@ -211,7 +210,7 @@ namespace Codingame {
       this.links = [];
 
       let headNode: Node;
-      nodes.forEach((node) => {
+      nodes.forEach((node: Node) => {
         if (headNode) {
           const link: Link = new Link(headNode, node);
           this.links.push(link);
@@ -291,20 +290,20 @@ namespace Codingame {
 
     start(): void {
       // game loop
-      while (true) {
+      let exitGame: boolean = false;
+      while (!exitGame) {
         // the index of the node on which the agent is positioned this turn
         const agentId: number = this.scanner.nextInt();
         const agentNode: Node = this.nodeLoader.loadNode(agentId);
         const exitPaths: Path[] = [];
         this.populateExitPaths(exitPaths, agentNode);
-        if (!exitPaths.length) {
-          break;
+        exitGame = !exitPaths.length;
+        if (!exitGame) {
+          // sever the shortest exit path
+          exitPaths
+            .sort(Comparator.compareAscending<Path>(path => path.length))[0]
+            .sever();
         }
-
-        // sever the shortest exit path
-        exitPaths
-          .sort(Comparator.compareAscending<Path>(path => path.length))[0]
-          .sever();
       }
     }
 
@@ -320,29 +319,27 @@ namespace Codingame {
       // tslint:disable-next-line:prefer-const
       for (let connection of currentNode) {
         const alreadyVisited: boolean = previouslyVisitedNodes.indexOf(connection) !== -1;
-        if (alreadyVisited) {
-          continue;
+        if (!alreadyVisited) {
+          const visitedNodes: Node[] = [...previouslyVisitedNodes, connection];
+
+          if (connection.isExitNode) {
+            exitPaths.push(new Path(visitedNodes));
+            // Use 'return' instead of 'continue' as a performance optimization.
+            // Without this we would occasionally fail the 'Triple star' test case with
+            // the following error: 'Timeout: your program did not provide an input in due time.'
+            // It's safe to assume that a node will only connect to 0 or 1 exit nodes.
+            // We can assert that if this node is an exit node, then none of its siblings are.
+            // Some siblings may have indirect paths to exit nodes which our algorithm will skip.
+            // This is acceptable because any indirect paths that siblings may have are
+            // not relevant to us because our goal is to sever the shortest exit path for each
+            // round of the game and indirect sibling paths are guaranteed to be longer than the
+            // exit path that we found.
+            return;
+          }
+
+          // recursive call
+          this.populateExitPaths(exitPaths, ...visitedNodes);
         }
-
-        const visitedNodes: Node[] = [...previouslyVisitedNodes, connection];
-
-        if (connection.isExitNode) {
-          exitPaths.push(new Path(visitedNodes));
-          // Use 'return' instead of 'continue' as a performance optimization.
-          // Without this we would occasionally fail the 'Triple star' test case with
-          // the following error: 'Timeout: your program did not provide an input in due time.'
-          // It's safe to assume that a node will only connect to 0 or 1 exit nodes.
-          // We can assert that if this node is an exit node, then none of its siblings are.
-          // Some siblings may have indirect paths to exit nodes which our algorithm will skip.
-          // This is acceptable because any indirect paths that siblings may have are
-          // not relevant to us because our goal is to sever the shortest exit path for each
-          // round of the game and indirect sibling paths are guaranteed to be longer than the
-          // exit path that we found.
-          return;
-        }
-
-        // recursive call
-        this.populateExitPaths(exitPaths, ...visitedNodes);
       }
     }
   }

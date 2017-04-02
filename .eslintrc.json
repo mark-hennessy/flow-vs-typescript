@@ -12,8 +12,21 @@
     "jest": true
   },
   "rules": {
-    "flowtype/require-parameter-type": 2,
-    "flowtype/require-return-type": 2,
-    "allowForLoopAfterthoughts": 2
+    "flowtype/require-parameter-type": "error",
+    "flowtype/require-return-type": "error",
+    "no-underscore-dangle": "off",
+    "radix": "off",
+    "valid-typeof": [
+      "error",
+      {
+        "requireStringLiterals": false
+      }
+    ],
+    "flowtype/require-return-type": [
+      "error",
+      {
+        "excludeArrowFunctions": true
+      }
+    ]
   }
 }

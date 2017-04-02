@@ -40,7 +40,7 @@
     "clean:out": "rimraf out",
     "clean:cov": "rimraf coverage",
     "clean:docs": "rimraf docs",
-    "flow": "flow",
+    "flow": "flow; exit 0",
     "eslint": "eslint src; exit 0",
     "eslint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
     "tslint": "tslint --config tslint.json src/**/*.ts; exit 0",

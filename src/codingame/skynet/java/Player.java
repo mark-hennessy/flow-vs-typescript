@@ -188,24 +188,26 @@ class Player {
 
     public void start() {
       // game loop
-      while (true) {
+      boolean exitGame = false;
+      while (!exitGame) {
         // the index of the node on which the agent is positioned this turn
         int agentId = scanner.nextInt();
         Node agentNode = nodeLoader.loadNode(agentId);
+
         List<Path> exitPaths = new ArrayList<>();
         List<Node> previouslyVisitedNodes = new ArrayList<>();
         previouslyVisitedNodes.add(agentNode);
         populateExitPaths(exitPaths, previouslyVisitedNodes);
-        if (exitPaths.isEmpty()) {
-          break;
-        }
 
-        // sever the shortest exit path
-        exitPaths.stream()
-          .sorted(Comparator.comparing(Path::getLength))
-          .findFirst()
-          .get()
-          .sever();
+        exitGame = exitPaths.isEmpty();
+        if (!exitGame) {
+          // sever the shortest exit path
+          exitPaths.stream()
+            .sorted(Comparator.comparing(Path::getLength))
+            .findFirst()
+            .get()
+            .sever();
+        }
       }
     }
 
@@ -214,30 +216,28 @@ class Player {
 
       for (Node connection : currentNode) {
         boolean alreadyVisited = previouslyVisitedNodes.contains(connection);
-        if (alreadyVisited) {
-          continue;
+        if (!alreadyVisited) {
+          List<Node> visitedNodes = new ArrayList<>(previouslyVisitedNodes);
+          visitedNodes.add(connection);
+
+          if (connection.isExitNode()) {
+            exitPaths.add(new Path(visitedNodes));
+            // Use 'return' instead of 'continue' as a performance optimization.
+            // Without this we would occasionally fail the 'Triple star' test case with
+            // the following error: 'Timeout: your program did not provide an input in due time.'
+            // It's safe to assume that a node will only connect to 0 or 1 exit nodes.
+            // We can assert that if this node is an exit node, then none of its siblings are.
+            // Some siblings may have indirect paths to exit nodes which our algorithm will skip.
+            // This is acceptable because any indirect paths that siblings may have are
+            // not relevant to us because our goal is to sever the shortest exit path for each
+            // round of the game and indirect sibling paths are guaranteed to be longer than the
+            // exit path that we found.
+            return;
+          }
+
+          // recursive call
+          this.populateExitPaths(exitPaths, visitedNodes);
         }
-
-        List<Node> visitedNodes = new ArrayList<>(previouslyVisitedNodes);
-        visitedNodes.add(connection);
-
-        if (connection.isExitNode()) {
-          exitPaths.add(new Path(visitedNodes));
-          // Use 'return' instead of 'continue' as a performance optimization.
-          // Without this we would occasionally fail the 'Triple star' test case with
-          // the following error: 'Timeout: your program did not provide an input in due time.'
-          // It's safe to assume that a node will only connect to 0 or 1 exit nodes.
-          // We can assert that if this node is an exit node, then none of its siblings are.
-          // Some siblings may have indirect paths to exit nodes which our algorithm will skip.
-          // This is acceptable because any indirect paths that siblings may have are
-          // not relevant to us because our goal is to sever the shortest exit path for each
-          // round of the game and indirect sibling paths are guaranteed to be longer than the
-          // exit path that we found.
-          return;
-        }
-
-        // recursive call
-        this.populateExitPaths(exitPaths, visitedNodes);
       }
     }
   }
