@@ -70,7 +70,7 @@ class Scanner {
 
   constructor() {
     this._rowIterator = RUNNING_IN_CODINGAME_EDITOR
-      ? Scanner._createInputIterator()
+      ? Scanner._createOldSchoolInputIterator()
       : Scanner._createFileIterator();
   }
 
@@ -80,12 +80,7 @@ class Scanner {
    */
   static* _createInputIterator(): Iterator<string> {
     while (true) {
-      const line: string = readline();
-      if (line) {
-        yield line;
-      } else {
-        return;
-      }
+      yield readline();
     }
   }
 
@@ -93,12 +88,7 @@ class Scanner {
   // $FlowFixMe
   static _createOldSchoolInputIterator(): Iterator<string> {
     return {
-      next: () => {
-        const line: string = readline();
-        return line
-          ? { value: line, done: false }
-          : { done: true };
-      },
+      next: () => ({ value: readline(), done: false }),
     };
   }
 

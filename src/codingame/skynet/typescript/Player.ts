@@ -79,12 +79,7 @@ namespace Codingame {
      */
     private static *createInputIterator(): Iterator<string> {
       while (true) {
-        const line: string = readline();
-        if (line) {
-          yield line;
-        } else {
-          return;
-        }
+        yield readline();
       }
     }
 
