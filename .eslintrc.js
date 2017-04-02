@@ -30,6 +30,12 @@ module.exports = {
       {
         'excludeArrowFunctions': true
       }
+    ],
+    'no-constant-condition': [
+      ERROR,
+      {
+        'checkLoops': false
+      }
     ]
   }
 }

@@ -79,11 +79,27 @@ class Scanner {
    * that will read a new line each iteration.
    */
   static* _createInputIterator(): Iterator<string> {
-    let line: string;
-    do {
-      line = readline();
-      yield line;
-    } while (line);
+    while (true) {
+      const line: string = readline();
+      if (line) {
+        yield line;
+      } else {
+        return;
+      }
+    }
+  }
+
+  // Suppress "Flow: property `@@iterator` of $Iterator. Property not found in object literal
+  // $FlowFixMe
+  static _createOldSchoolInputIterator(): Iterator<string> {
+    return {
+      next: () => {
+        const line: string = readline();
+        return line
+          ? { value: line, done: false }
+          : { done: true };
+      },
+    };
   }
 
   /**
@@ -308,20 +324,20 @@ class Game {
 
   start() {
     // game loop
-    let exitGame: boolean = false;
-    while (!exitGame) {
+    while (true) {
       // the index of the node on which the agent is positioned this turn
       const agentId: number = this._scanner.nextInt();
       const agentNode: Node = this._nodeLoader.loadNode(agentId);
       const exitPaths: Path[] = [];
       this._populateExitPaths(exitPaths, agentNode);
-      exitGame = !exitPaths.length;
-      if (!exitGame) {
-        // sever the shortest exit path
-        exitPaths
-          .sort(Comparator.compareAscending((path: Path) => path.length))[0]
-          .sever();
+      if (!exitPaths.length) {
+        return;
       }
+
+      // sever the shortest exit path
+      exitPaths
+        .sort(Comparator.compareAscending((path: Path) => path.length))[0]
+        .sever();
     }
   }
 

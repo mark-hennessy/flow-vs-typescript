@@ -188,8 +188,7 @@ class Player {
 
     public void start() {
       // game loop
-      boolean exitGame = false;
-      while (!exitGame) {
+      while (true) {
         // the index of the node on which the agent is positioned this turn
         int agentId = scanner.nextInt();
         Node agentNode = nodeLoader.loadNode(agentId);
@@ -198,16 +197,16 @@ class Player {
         List<Node> previouslyVisitedNodes = new ArrayList<>();
         previouslyVisitedNodes.add(agentNode);
         populateExitPaths(exitPaths, previouslyVisitedNodes);
-
-        exitGame = exitPaths.isEmpty();
-        if (!exitGame) {
-          // sever the shortest exit path
-          exitPaths.stream()
-            .sorted(Comparator.comparing(Path::getLength))
-            .findFirst()
-            .get()
-            .sever();
+        if (exitPaths.isEmpty()) {
+          return;
         }
+
+        // sever the shortest exit path
+        exitPaths.stream()
+          .sorted(Comparator.comparing(Path::getLength))
+          .findFirst()
+          .get()
+          .sever();
       }
     }
 

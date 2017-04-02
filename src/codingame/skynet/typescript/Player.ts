@@ -78,11 +78,14 @@ namespace Codingame {
      * that will read a new line each iteration.
      */
     private static *createInputIterator(): Iterator<string> {
-      let line: string;
-      do {
-        line = readline();
-        yield line;
-      } while (line);
+      while (true) {
+        const line: string = readline();
+        if (line) {
+          yield line;
+        } else {
+          return;
+        }
+      }
     }
 
     /**
@@ -290,20 +293,20 @@ namespace Codingame {
 
     start(): void {
       // game loop
-      let exitGame: boolean = false;
-      while (!exitGame) {
+      while (true) {
         // the index of the node on which the agent is positioned this turn
         const agentId: number = this.scanner.nextInt();
         const agentNode: Node = this.nodeLoader.loadNode(agentId);
         const exitPaths: Path[] = [];
         this.populateExitPaths(exitPaths, agentNode);
-        exitGame = !exitPaths.length;
-        if (!exitGame) {
-          // sever the shortest exit path
-          exitPaths
-            .sort(Comparator.compareAscending<Path>(path => path.length))[0]
-            .sever();
+        if (!exitPaths.length) {
+          return;
         }
+
+        // sever the shortest exit path
+        exitPaths
+          .sort(Comparator.compareAscending<Path>(path => path.length))[0]
+          .sever();
       }
     }
 
