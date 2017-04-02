@@ -1,6 +1,8 @@
 [ignore]
 ./out
 ./bin
+./coverage
+./docs
 
 [include]
 ./src
