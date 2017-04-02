@@ -31,13 +31,13 @@ class Player {
     private int id;
     private boolean exitNode;
 
-    private Set<Node> links;
-    private Iterator<Node> linkIterator;
+    private Set<Node> connections;
+    private Iterator<Node> connectionIterator;
 
     public Node(int id) {
       this.id = id;
 
-      links = new HashSet<>();
+      connections = new HashSet<>();
     }
 
     public int getId() {
@@ -52,39 +52,39 @@ class Player {
       this.exitNode = true;
     }
 
-    public void addLinkWith(Node node) {
-      links.add(node);
-      node.links.add(this);
+    public void addConnectionWith(Node node) {
+      connections.add(node);
+      node.connections.add(this);
     }
 
-    public void removeLinkWith(Node node) {
-      links.remove(node);
-      node.links.remove(this);
+    public void removeConnectionWith(Node node) {
+      connections.remove(node);
+      node.connections.remove(this);
     }
 
-    public int linkCount() {
-      return links.size();
+    public int connectionCount() {
+      return connections.size();
     }
 
-    public Node nextMatchingLink(Predicate<Node> predicate) {
-      if (linkIterator == null) {
-        linkIterator = links.iterator();
+    public Node nextMatchingConnection(Predicate<Node> predicate) {
+      if (connectionIterator == null) {
+        connectionIterator = connections.iterator();
       }
 
       while (true) {
-        if (!linkIterator.hasNext()) {
+        if (!connectionIterator.hasNext()) {
           return null;
         }
 
-        Node node = linkIterator.next();
+        Node node = connectionIterator.next();
         if (predicate.test(node)) {
           return node;
         }
       }
     }
 
-    public void resetLinkIterator() {
-      linkIterator = null;
+    public void resetConnectionIterator() {
+      connectionIterator = null;
     }
 
     @Override
@@ -92,7 +92,7 @@ class Player {
       return "Node{" +
         "id=" + id +
         ", isExitNode=" + isExitNode() +
-        ", linkCount=" + linkCount() +
+        ", connectionCount=" + connectionCount() +
         '}';
     }
   }
@@ -106,111 +106,63 @@ class Player {
       this.nodeB = nodeB;
     }
 
-    public int weight() {
-      return 100 / (nodeA.linkCount() + nodeB.linkCount());
+    public int calculateImportance() {
+      // links between nodes with few connections are more important because
+      // severing them is more likely to result in dead-ends.
+      return 100 / (nodeA.connectionCount() + nodeB.connectionCount());
     }
 
-    public void destroy() {
-      nodeA.removeLinkWith(nodeB);
+    public void sever() {
+      nodeA.removeConnectionWith(nodeB);
 
       System.out.println(nodeA.getId() + " " + nodeB.getId());
-    }
-
-    @Override
-    public String toString() {
-      return "Link{" +
-        "nodeA=" + nodeA +
-        ", nodeB=" + nodeB +
-        '}';
     }
   }
 
   public static class Path {
     private List<Link> links;
-    private Node headNode;
 
-    public Path() {
+    public Path(List<Node> nodes) {
       links = new ArrayList<>();
-    }
 
-    public void addNode(Node node) {
-      if (headNode != null) {
-        Link link = new Link(headNode, node);
-        links.add(link);
+      Node headNode = null;
+      for (Node node : nodes) {
+        if (headNode != null) {
+          Link link = new Link(headNode, node);
+          links.add(link);
+        }
+        headNode = node;
       }
-      headNode = node;
     }
 
-    public int linkCount() {
+    public int getLength() {
       return links.size();
     }
 
-    public void destroy() {
+    public void sever() {
       if (links.isEmpty()) {
         return;
       }
 
       links.stream()
-        .sorted(Comparator.comparing(Link::weight).reversed())
+        .sorted(Comparator.comparing(Link::calculateImportance).reversed())
         .findFirst()
         .get()
-        .destroy();
-    }
-
-    @Override
-    public String toString() {
-      return "Path{" +
-        "links=" + links +
-        '}';
+        .sever();
     }
   }
 
-  public static class PathBuilder {
-    private Stack<Node> nodes;
-
-    public PathBuilder() {
-      nodes = new Stack<>();
-    }
-
-    public void push(Node node) {
-      nodes.push(node);
-    }
-
-    public Node pop() {
-      return nodes.pop();
-    }
-
-    public Node peek() {
-      return nodes.peek();
-    }
-
-    public boolean contains(Node node) {
-      return nodes.contains(node);
-    }
-
-    public boolean hasNodes() {
-      return !nodes.isEmpty();
-    }
-
-    public Path build() {
-      Path path = new Path();
-      nodes.forEach(path::addNode);
-      return path;
-    }
-  }
-
-  public static class Game {
+  public static class NodeLoader {
     private Scanner scanner;
-    private Map<Integer, Node> nodeMap;
+    private Map<Integer, Node> nodeRegistry;
 
-    public Game() {
-      scanner = new Scanner(System.in);
-      nodeMap = new HashMap<>();
+    public NodeLoader(Scanner scanner) {
+      this.scanner = scanner;
 
-      loadGameData();
+      nodeRegistry = new HashMap<>();
     }
 
-    private void loadGameData() {
+    private void loadInitialNodes() {
       // the total number of nodes in the level, including the gateways
       int nodeCount = scanner.nextInt();
       // the number of links
@@ -224,22 +176,34 @@ class Player {
         int idB = scanner.nextInt();
         Node nodeA = loadNode(idA);
         Node nodeB = loadNode(idB);
-        nodeA.addLinkWith(nodeB);
+        nodeA.addConnectionWith(nodeB);
       }
 
       for (int i = 0; i < exitNodeCount; i++) {
         // the index of a gateway node
         int exitId = scanner.nextInt();
-        Node exitNode = nodeMap.get(exitId);
+        Node exitNode = nodeRegistry.get(exitId);
         exitNode.makeExitNode();
       }
     }
 
     private Node loadNode(int nodeId) {
-      if (!nodeMap.containsKey(nodeId)) {
-        nodeMap.put(nodeId, new Node(nodeId));
+      if (!nodeRegistry.containsKey(nodeId)) {
+        nodeRegistry.put(nodeId, new Node(nodeId));
       }
-      return nodeMap.get(nodeId);
+      return nodeRegistry.get(nodeId);
+    }
+  }
+
+  public static class Game {
+    private Scanner scanner;
+    private NodeLoader nodeLoader;
+
+    public Game() {
+      scanner = new Scanner(System.in);
+      nodeLoader = new NodeLoader(scanner);
+
+      nodeLoader.loadInitialNodes();
     }
 
     public void start() {
@@ -247,52 +211,45 @@ class Player {
       while (true) {
         // the index of the node on which the agent is positioned this turn
         int agentId = scanner.nextInt();
-        Node agentNode = loadNode(agentId);
+        Node agentNode = nodeLoader.loadNode(agentId);
         List<Path> exitPaths = findExitPaths(agentNode);
         if (exitPaths.isEmpty()) {
           break;
         }
 
-        destroyShortestPath(exitPaths);
+        // sever the shortest exit path
+        exitPaths.stream()
+          .sorted(Comparator.comparing(Path::getLength))
+          .findFirst()
+          .get()
+          .sever();
       }
     }
 
     public List<Path> findExitPaths(Node originNode) {
-      PathBuilder pathBuilder = new PathBuilder();
-      pathBuilder.push(originNode);
+      Stack<Node> visitedNodes = new Stack<>();
+      visitedNodes.push(originNode);
 
-      Predicate<Node> notAlreadyVisited = node -> !pathBuilder.contains(node);
+      Predicate<Node> notAlreadyVisited = node -> !visitedNodes.contains(node);
 
       List<Path> paths = new ArrayList<>();
 
-      while (pathBuilder.hasNodes()) {
-        Node nextNode = pathBuilder.peek().nextMatchingLink(notAlreadyVisited);
+      while (!visitedNodes.isEmpty()) {
+        Node nextNode = visitedNodes.peek().nextMatchingConnection(notAlreadyVisited);
         if (nextNode != null) {
-          pathBuilder.push(nextNode);
+          visitedNodes.push(nextNode);
           if (nextNode.isExitNode()) {
-            paths.add(pathBuilder.build());
+            paths.add(new Path(visitedNodes));
             nextNode = null;
           }
         }
 
         if (nextNode == null) {
-          pathBuilder.pop().resetLinkIterator();
+          visitedNodes.pop().resetConnectionIterator();
         }
       }
-      
+
       return paths;
-    }
-
-    public void destroyShortestPath(List<Path> paths) {
-      if (paths.isEmpty()) {
-        return;
-      }
-
-      paths.stream()
-        .sorted(Comparator.comparing(Path::linkCount))
-        .findFirst()
-        .get()
-        .destroy();
     }
   }
 }

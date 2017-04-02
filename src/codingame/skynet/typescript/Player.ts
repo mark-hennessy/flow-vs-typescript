@@ -13,6 +13,8 @@ namespace Codingame {
   const FUNCTION: string = 'function';
   const UNDEFINED: string = 'undefined';
 
+  const DEBUG_OUTPUT_ENABLED: boolean = false;
+
   const RUNNING_IN_CODINGAME_EDITOR: boolean =
     typeof readline === FUNCTION
     && typeof printErr === FUNCTION;
@@ -22,6 +24,10 @@ namespace Codingame {
   }
 
   function debug(message: string): void {
+    if (!DEBUG_OUTPUT_ENABLED) {
+      return;
+    }
+
     if (RUNNING_IN_CODINGAME_EDITOR) {
       printErr(message);
     } else {
@@ -140,57 +146,38 @@ namespace Codingame {
   class Node {
     isExitNode: boolean;
 
-    private links: Set<Node>;
-    private linkIterator: Iterator<Node>;
+    private connections: Set<Node>;
 
     constructor(readonly id: number) {
       // Everything, even primitives such as numbers and booleans,
       // default to undefined if not initialized with a value.
       this.isExitNode = false;
-      this.links = new Set<Node>();
+      this.connections = new Set<Node>();
     }
 
-    addLinkWith(node: Node): void {
-      this.links.add(node);
-      node.links.add(this);
+    addConnectionWith(node: Node): void {
+      this.connections.add(node);
+      node.connections.add(this);
     }
 
-    removeLinkWith(node: Node): void {
-      this.links.delete(node);
-      node.links.delete(this);
+    removeConnectionWith(node: Node): void {
+      this.connections.delete(node);
+      node.connections.delete(this);
     }
 
-    linkCount(): number {
-      return this.links.size;
+    get connectionCount(): number {
+      return this.connections.size;
     }
 
-    nextMatchingLink(predicate: (node: Node) => boolean): Node {
-      if (!this.linkIterator) {
-        this.linkIterator = this.links[Symbol.iterator]();
-      }
-
-      while (true) {
-        const result: IteratorResult<Node> = this.linkIterator.next();
-        if (result.done) {
-          return null;
-        }
-
-        const node: Node = result.value;
-        if (predicate(node)) {
-          return node;
-        }
-      }
-    }
-
-    resetLinkIterator(): void {
-      this.linkIterator = null;
+    [Symbol.iterator](): Iterator<Node> {
+      return this.connections[Symbol.iterator]();
     }
 
     toString(): string {
       return JSON.stringify({
         id: this.id,
         isExitNode: this.isExitNode,
-        linkCount: this.links.size,
+        connectionCount: this.connections.size,
       });
     }
   }
@@ -204,12 +191,14 @@ namespace Codingame {
       this.nodeB = nodeB;
     }
 
-    weight(): number {
-      return 100 / (this.nodeA.linkCount() + this.nodeB.linkCount());
+    get importance(): number {
+      // links between nodes with few connections are more important because
+      // severing them is more likely to result in dead-ends.
+      return 100 / (this.nodeA.connectionCount + this.nodeB.connectionCount);
     }
 
-    destroy(): void {
-      this.nodeA.removeLinkWith(this.nodeB);
+    sever(): void {
+      this.nodeA.removeConnectionWith(this.nodeB);
 
       output(`${this.nodeA.id} ${this.nodeB.id}`);
     }
@@ -217,83 +206,45 @@ namespace Codingame {
 
   class Path {
     private links: Link[];
-    private headNode: Node;
 
-    constructor() {
+    constructor(nodes: Node[]) {
       this.links = [];
+
+      let headNode: Node;
+      nodes.forEach((node) => {
+        if (headNode) {
+          const link: Link = new Link(headNode, node);
+          this.links.push(link);
+        }
+
+        headNode = node;
+      });
     }
 
-    addNode(node: Node): void {
-      if (this.headNode) {
-        const link: Link = new Link(this.headNode, node);
-        this.links.push(link);
-      }
-
-      this.headNode = node;
-    }
-
-    length(): number {
+    get length(): number {
       return this.links.length;
     }
 
-    destroy(): void {
+    sever(): void {
       if (!this.links.length) {
         return;
       }
 
       const mostImportantLink: Link = this.links
-        .sort(Comparator.compareDescending<Link>(link => link.weight()))[0];
+        .sort(Comparator.compareDescending<Link>(link => link.importance))[0];
 
-      mostImportantLink.destroy();
+      mostImportantLink.sever();
     }
   }
 
-  class PathBuilder {
-    private nodes: Node[];
+  class NodeLoader {
+    nodeRegistry: Map<number, Node>;
 
-    constructor() {
-      this.nodes = [];
+    constructor(private scanner: Scanner) {
+      this.nodeRegistry = new Map<number, Node>();
     }
 
-    push(node: Node): void {
-      this.nodes.push(node);
-    }
-
-    pop(): Node {
-      return this.nodes.pop();
-    }
-
-    peek(): Node {
-      return this.nodes[this.nodes.length - 1];
-    }
-
-    contains(node: Node): boolean {
-      return this.nodes.indexOf(node) !== -1;
-    }
-
-    hasNodes(): boolean {
-      return !!this.nodes.length;
-    }
-
-    build(): Path {
-      const path: Path = new Path();
-      this.nodes.forEach(path.addNode.bind(path));
-      return path;
-    }
-  }
-
-  export class Game {
-    private scanner: Scanner;
-    private nodeMap: Map<number, Node>;
-
-    constructor() {
-      this.scanner = new Scanner();
-      this.nodeMap = new Map<number, Node>();
-
-      this.loadGameData();
-    }
-
-    private loadGameData(): void {
+    loadInitialNodes(): void {
       // the total number of nodes in the level, including the gateways
       const nodeCount: number = this.scanner.nextInt();
       // the number of links
@@ -307,23 +258,35 @@ namespace Codingame {
         const idB: number = this.scanner.nextInt();
         const nodeA: Node = this.loadNode(idA);
         const nodeB: Node = this.loadNode(idB);
-        nodeA.addLinkWith(nodeB);
+        nodeA.addConnectionWith(nodeB);
       }
 
       for (let i: number = 0; i < exitNodeCount; i += 1) {
         // the index of a gateway node
         const exitId: number = this.scanner.nextInt();
-        const exitNode: Node = this.nodeMap.get(exitId);
+        const exitNode: Node = this.loadNode(exitId);
         exitNode.isExitNode = true;
       }
     }
 
-    private loadNode(nodeId: number): Node {
-      if (!this.nodeMap.has(nodeId)) {
-        this.nodeMap.set(nodeId, new Node(nodeId));
+    loadNode(nodeId: number): Node {
+      if (!this.nodeRegistry.has(nodeId)) {
+        this.nodeRegistry.set(nodeId, new Node(nodeId));
       }
 
-      return this.nodeMap.get(nodeId);
+      return this.nodeRegistry.get(nodeId);
+    }
+  }
+
+  export class Game {
+    private scanner: Scanner;
+    private nodeLoader: NodeLoader;
+
+    constructor() {
+      this.scanner = new Scanner();
+      this.nodeLoader = new NodeLoader(this.scanner);
+
+      this.nodeLoader.loadInitialNodes();
     }
 
     start(): void {
@@ -331,54 +294,56 @@ namespace Codingame {
       while (true) {
         // the index of the node on which the agent is positioned this turn
         const agentId: number = this.scanner.nextInt();
-        const agentNode: Node = this.loadNode(agentId);
-        const exitPaths: Path[] = this.findExitPaths(agentNode);
+        const agentNode: Node = this.nodeLoader.loadNode(agentId);
+        const exitPaths: Path[] = [];
+        this.populateExitPaths(exitPaths, agentNode);
         if (!exitPaths.length) {
           break;
         }
 
-        this.destroyShortestPath(exitPaths);
+        // sever the shortest exit path
+        exitPaths
+          .sort(Comparator.compareAscending<Path>(path => path.length))[0]
+          .sever();
       }
     }
 
-    findExitPaths(originNode: Node): Path[] {
-      const pathBuilder: PathBuilder = new PathBuilder();
-      pathBuilder.push(originNode);
+    populateExitPaths(exitPaths: Path[], ...previouslyVisitedNodes: Node[]): void {
+      const currentNode: Node = previouslyVisitedNodes[previouslyVisitedNodes.length - 1];
 
-      const notAlreadyVisited: (node: Node) => boolean =
-        node => !pathBuilder.contains(node);
-
-      const paths: Path[] = [];
-
-      while (pathBuilder.hasNodes()) {
-        let nextNode: Node = pathBuilder
-          .peek()
-          .nextMatchingLink(notAlreadyVisited);
-
-        if (nextNode) {
-          pathBuilder.push(nextNode);
-          if (nextNode.isExitNode) {
-            paths.push(pathBuilder.build());
-            nextNode = null;
-          }
+      // Prior to Firefox 51, using the for...of loop construct with the const keyword
+      // threw a SyntaxError ("missing = in const declaration").
+      // Apparently the version of the SpiderMonkey JS engine that codingame uses doesn't
+      // get updated regularly. Using let instead of const throws a tslint error that we
+      // can disable so that our code can run in codingame without getting the
+      // ("missing = in const declaration") error.
+      // tslint:disable-next-line:prefer-const
+      for (let connection of currentNode) {
+        const alreadyVisited: boolean = previouslyVisitedNodes.indexOf(connection) !== -1;
+        if (alreadyVisited) {
+          continue;
         }
 
-        if (!nextNode) {
-          pathBuilder.pop().resetLinkIterator();
+        const visitedNodes: Node[] = [...previouslyVisitedNodes, connection];
+
+        if (connection.isExitNode) {
+          exitPaths.push(new Path(visitedNodes));
+          // Use 'return' instead of 'continue' as a performance optimization.
+          // Without this we would occasionally fail the 'Triple star' test case with
+          // the following error: 'Timeout: your program did not provide an input in due time.'
+          // It's safe to assume that a node will only connect to 0 or 1 exit nodes.
+          // We can assert that if this node is an exit node, then none of its siblings are.
+          // Some siblings may have indirect paths to exit nodes which our algorithm will skip.
+          // This is acceptable because any indirect paths that siblings may have are
+          // not relevant to us because our goal is to sever the shortest exit path for each
+          // round of the game and indirect sibling paths are guaranteed to be longer than the
+          // exit path that we found.
+          return;
         }
+
+        // recursive call
+        this.populateExitPaths(exitPaths, ...visitedNodes);
       }
-
-      return paths;
-    }
-
-    destroyShortestPath(paths: Path[]): void {
-      if (!paths.length) {
-        return;
-      }
-
-      paths
-        .sort(Comparator.compareAscending<Path>(path => path.length()))[0]
-        .destroy();
     }
   }
 }

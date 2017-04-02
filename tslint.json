@@ -11,6 +11,7 @@
       "object-destructuring",
       "array-destructuring"
     ],
-    "radix": false
+    "radix": false,
+    "function-name": false
   }
 }
