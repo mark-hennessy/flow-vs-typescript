@@ -13,7 +13,48 @@ My secondary goals were to experiment with:
 * Generating javadoc style documentation for JavaScript
 * IDE integration
 
+## General Setup
+General setup needed to get the project up and running in the terminal and in IDEs.
+
+### NodeJS
+NodeJS is needed to run JS outside of the browser, interact with the OS and filesystem, and manage dependencies.
+
+Install NodeJS from nodejs.org.
+This will also install the npm command, which is needed to install and manage dependencies.
+
+### Yarn
+Yarn is a popular alternative to the npm command because it's faster and has better default behavior.
+Using Yarn is optional but highly recommended.
+
+Installation instructions can be found online at yarnpkg.com.
+
+### Dependencies
+Open your terminal, change to the root project directory, and run the following command:
+```
+yarn install
+```
+This is equivalent to the slower and less preferred
+```
+npm install
+```
+Either of these commands will install the project's dependencies as defined in the package.json file.
+
+### Build
+All of the project's build scripts as defined in the package.json file as npm scripts.
+
+Most build scripts are optional since IntelliJ already has integrations for linting tools, unit testing tools, 
+flow, typescript compilation etc.
+
+Notable scripts:
+* `test:cov`: Generates code coverage reports
+* `babel`: Uses Babel to transpile ES6 to ES5
+* `webpack`: Uses Webpack to bundle the app into a single file
+* `docs:js`: Generates a javadoc style website for JavaScript files
+* `docs:ts`: Generates a javadoc style website for TypeScript files
+
 ## IntelliJ Setup
+The following IntelliJ setup is recommended. It's possible to setup the project in other IDEs,
+but some IDEs may lack support for Java.
 
 ### Plugins
 Required plugins:
@@ -24,7 +65,7 @@ Optional plugins:
 * NodeJS, found in the "Install JetBrains plugin..." menu
 
 ### Java Setup
-Java setup is necessary because this project contains some Java8 code for reference.
+Java setup is necessary because this project contains some Java 8 code for reference.
 
 #### Set Source Directory
 Right click the "src" folder > "Mark Directory as" > "Sources Root"
