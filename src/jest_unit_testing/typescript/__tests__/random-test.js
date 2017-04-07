@@ -1,4 +1,5 @@
-import { sayHi, addNumbers } from '../random';
+// The .js file extension is needed because the jest code coverage tool is not setup to understand TypeScript.
+import { sayHi, addNumbers } from '../random.js';
 
 describe('sayHi', () => {
   it('should say Hi', () => {
