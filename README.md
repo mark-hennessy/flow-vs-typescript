@@ -64,8 +64,11 @@ Project Settings > Project
 * Project compiler output: flow-vs-typescript/out
 
 ### JavaScript Setup
+IntelliJ supports JavaScript natively, but there is some light setup needed for Flow and ESLint.
+
 #### Flow
 Preferences > Languages & Frameworks > JavaScript
+
 JavaScript language version: Flow
 
 Use Flow server for:
@@ -84,6 +87,8 @@ Preferences > Languages & Frameworks > JavaScript > Code Quality Tools > ESLint
 * Enable: checked
 
 ### TypeScript Setup
+TypeScript setup is as simple as checking that the TypeScript compiler and TSLint are enabled.
+
 #### Compiler
 Preferences > Languages & Frameworks > TypeScript
 * Enable TypeScript Compiler: checked
@@ -94,6 +99,8 @@ Preferences > Languages & Frameworks > TypeScript > TSLint
 * Enabled: checked
 
 ### Code Style
+IntelliJ code style needs to be configured so that auto-formatting does not conflict with linters.
+
 #### Spacing
 Indentation should be set to 2 spaces since this is recommended by the airbnb style guide.
 https://github.com/airbnb/javascript#whitespace
