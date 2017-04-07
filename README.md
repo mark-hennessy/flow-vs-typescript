@@ -39,19 +39,6 @@ npm install
 ```
 Either of these commands will install the project's dependencies as defined in the package.json file.
 
-### Build
-All of the project's build scripts as defined in the package.json file as npm scripts.
-
-Most build scripts are optional since IntelliJ already has integrations for linting tools, unit testing tools, 
-flow, typescript compilation etc.
-
-Notable scripts:
-* `test:cov`: Generates code coverage reports
-* `babel`: Uses Babel to transpile ES6 to ES5
-* `webpack`: Uses Webpack to bundle the app into a single file
-* `docs:js`: Generates a javadoc style website for JavaScript files
-* `docs:ts`: Generates a javadoc style website for TypeScript files
-
 ## IntelliJ Setup
 The following IntelliJ setup is recommended. It's possible to setup the project in other IDEs,
 but some IDEs may lack support for Java.
@@ -126,6 +113,31 @@ Preferences > Editor > General > Other
 Preferences > Editor > Code Style > JavaScript > Spaces > Within
 * Object literal braces
 * ES6 import/export braces
+
+## Build
+All of the project's build scripts as defined in the package.json file as npm scripts.
+
+Most scripts are optional since IntelliJ already has integrations for linting tools, unit testing tools, 
+flow, typescript compilation etc.
+
+Notable scripts that IntelliJ won't execute for you are:
+* `test:cov`: Generates code coverage reports
+* `babel`: Uses Babel to transpile ES6 to ES5
+* `webpack`: Uses Webpack to bundle the app into a single file
+* `docs:js`: Generates a javadoc style website for JavaScript files
+* `docs:ts`: Generates a javadoc style website for TypeScript files
+
+Scripts can be executed from within IntelliJ by double clicking tasks in the "npm" view.
+Note that this may require the NodeJS plugin for IntelliJ.
+
+Scripts can also be executed in the terminal using
+```
+yarn run taskName
+```
+or alternatively
+```
+npm run taskName
+```
 
 ## License & copyright
 © Mark Hennessy
