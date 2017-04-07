@@ -1,5 +1,5 @@
 # Flow vs. Typescript
-This is just a sandbox app that I used to experiment with various JavaScript technologies. 
+This is a sandbox app that I used to experiment with various JavaScript technologies. 
 
 My main goal was to compare ES6/Flow and Typescript.
 
