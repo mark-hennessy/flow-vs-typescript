@@ -36,6 +36,9 @@
     "typescript": "^2.2.1",
     "webpack": "^2.3.2"
   },
+  "dependencies": {
+    "babel-polyfill": "^6.23.0"
+  },
   "scripts": {
     "clean": "npm run clean:out && npm run clean:bin && npm run clean:cov && npm run clean:docs",
     "clean:out": "rimraf out",
@@ -54,8 +57,5 @@
     "webpack": "npm run clean:bin && webpack --config webpack.config.js; exit 0",
     "docs:js": "npm run clean:docs && documentation build src/**/flow/*.js --format html --output docs",
     "docs:ts": "npm run clean:docs && typedoc src/**/typescript/*.ts --out docs"
-  },
-  "dependencies": {
-    "babel-polyfill": "^6.23.0"
   }
 }
