@@ -128,9 +128,9 @@ Most scripts are optional since IntelliJ already has integrations for linting to
 flow, typescript compilation etc.
 
 Notable scripts that IntelliJ won't execute for you are:
-* `test:cov`: Generates code coverage reports
 * `babel`: Uses Babel to transpile ES6 to ES5
 * `webpack`: Uses Webpack to bundle the app into a single file
+* `test:cov`: Generates code coverage reports
 * `docs:js`: Generates a javadoc style website for JavaScript files
 * `docs:ts`: Generates a javadoc style website for TypeScript files
 
