@@ -37,7 +37,7 @@
     "webpack": "^2.3.2"
   },
   "scripts": {
-    "clean": "yarn run clean:out && yarn run clean:bin && yarn run clean:cov && yarn run clean:docs",
+    "clean": "npm run clean:out && npm run clean:bin && npm run clean:cov && npm run clean:docs",
     "clean:out": "rimraf out",
     "clean:bin": "rimraf bin",
     "clean:cov": "rimraf coverage",
@@ -48,12 +48,12 @@
     "eslint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
     "tslint": "tslint --config tslint.json src/**/*.ts; exit 0",
     "test": "jest --config=jestconfig.json",
-    "test:watch": "yarn test -- --watch",
-    "test:cov": "yarn test -- --coverage; exit 0",
-    "babel": "yarn run clean:out && babel src --out-dir out; exit 0",
-    "webpack": "yarn run clean:bin && webpack --config webpack.config.js; exit 0",
-    "docs:js": "yarn run clean:docs && documentation build src/**/flow/*.js --format html --output docs",
-    "docs:ts": "yarn run clean:docs && typedoc src/**/typescript/*.ts --out docs"
+    "test:watch": "npm test -- --watch",
+    "test:cov": "npm test -- --coverage; exit 0",
+    "babel": "npm run clean:out && babel src --out-dir out; exit 0",
+    "webpack": "npm run clean:bin && webpack --config webpack.config.js; exit 0",
+    "docs:js": "npm run clean:docs && documentation build src/**/flow/*.js --format html --output docs",
+    "docs:ts": "npm run clean:docs && typedoc src/**/typescript/*.ts --out docs"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0"
