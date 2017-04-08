@@ -43,13 +43,20 @@ Either of these commands will install the project's dependencies as defined in t
 The following IntelliJ setup is recommended. It's possible to setup the project in other IDEs,
 but some IDEs may lack support for Java.
 
-### Plugins
+### Project Import
+1. In IntelliJ, select "Open"
+2. Find and select the project directory
+
+### Plugin Installation
+Preferences > Plugins
+
 Required plugins:
 * EditorConfig
 * tslint
 
 Optional plugins:
-* NodeJS, found in the "Install JetBrains plugin..." menu
+* NodeJS
+  * Click the "Install JetBrains plugin..." button and find it in the menu
 
 ### Java Setup
 Java setup is necessary because this project contains some Java 8 code for reference.
@@ -61,7 +68,6 @@ Right click the "src" folder > "Mark Directory as" > "Sources Root"
 Project Settings > Project
 * Project SDK: 1.8
 * Project language level: 8
-* Project compiler output: flow-vs-typescript/out
 
 ### JavaScript Setup
 IntelliJ supports JavaScript natively, but there is some light setup needed for Flow and ESLint.
