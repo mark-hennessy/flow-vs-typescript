@@ -75,13 +75,14 @@ IntelliJ supports JavaScript natively, but there is some light setup needed for 
 #### Flow
 Preferences > Languages & Frameworks > JavaScript
 
-JavaScript language version: Flow
+* JavaScript language version: Flow
+* Flow executable: absolute path to node_modules/.bin/flow
 
-Use Flow server for:
+In the "Use Flow server for" section
 * Type checking: checked
 * Navigation, code completion, and type hinting: checked
 * Code highlighting and built-in inspections: unchecked
-  * This is unchecked because it slows down IntelliJ
+  * This is unchecked for performance reasons
 
 #### ESLint
 Preferences > Languages & Frameworks > JavaScript > Code Quality Tools > ESLint
