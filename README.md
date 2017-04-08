@@ -53,10 +53,14 @@ Option A:
 4. Manually set the Project SDK and language level to Java 8 as described in the Java Setup section
 
 Option B:
-1. Import the project from existing sources
-2. Click Next a bunch of times
-3. Select Java 8
-4. Finish
+1. Import/Create a new project from existing sources
+2. Keep the default settings and click Next 5 times
+
+Note: Avoid clicking the Previous button as that can cause the wizard to skip the module import step, 
+which would lead to the "src" folder not showing up in IntelliJ's Project view.
+
+3. Select 1.8 as the Project SDK
+4. Next > Finish
 
 ### IntelliJ Plugin Installation
 Preferences > Plugins
