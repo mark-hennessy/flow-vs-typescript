@@ -9,6 +9,9 @@
   },
   "keywords": [],
   "author": "Mark Hennessy <mhennessy116@gmail.com>",
+  "dependencies": {
+    "babel-polyfill": "^6.23.0"
+  },
   "devDependencies": {
     "@types/jest": "^19.2.2",
     "@types/node": "^7.0.12",
@@ -35,9 +38,6 @@
     "typedoc": "^0.5.9",
     "typescript": "^2.2.1",
     "webpack": "^2.3.2"
-  },
-  "dependencies": {
-    "babel-polyfill": "^6.23.0"
   },
   "scripts": {
     "clean": "npm run clean:out && npm run clean:bin && npm run clean:cov && npm run clean:docs",
