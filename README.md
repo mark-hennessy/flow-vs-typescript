@@ -83,11 +83,6 @@ Use Flow server for:
 * Code highlighting and built-in inspections: unchecked
   * This is unchecked because it slows down IntelliJ
 
-#### Type Declarations
-Preferences > Languages & Frameworks > JavaScript > Libraries
-* SpiderMonkey should already be in the list and enabled because
-the project contains a file called SpiderMonkey.d.ts
-
 #### ESLint
 Preferences > Languages & Frameworks > JavaScript > Code Quality Tools > ESLint
 * Enable: checked
