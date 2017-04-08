@@ -113,7 +113,7 @@ In the "EditorConfig" section
 Indentation should be set to 2 spaces since this is recommended by the airbnb style guide.
 https://github.com/airbnb/javascript#whitespace
 
-Spacing should automatically be configured by the EditorConfig plugin, 
+Spacing should be automatically configured by the EditorConfig plugin, 
 which will read settings from the .editorconfig file.
 
 Verify that IntelliJ is using the following settings for spacing:
