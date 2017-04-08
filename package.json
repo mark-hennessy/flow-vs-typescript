@@ -1,14 +1,15 @@
 {
   "name": "flow-vs-typescript",
   "description": "A sandbox app to experiment with various JavaScript technologies.",
-  "version": "0.0.1",
-  "license": "MIT",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mark-hennessy/flow-vs-typescript.git"
+    "url": "https://github.com/mark-hennessy/flow-vs-typescript.git",
   },
-  "keywords": [],
-  "author": "Mark Hennessy <mhennessy116@gmail.com>",
+  "keywords": [
+    "flow",
+    "typescript"
+  ],
   "dependencies": {
     "babel-polyfill": "^6.23.0"
   },
@@ -57,5 +58,7 @@
     "webpack": "npm run clean:bin && webpack --config webpack.config.js; exit 0",
     "docs:js": "npm run clean:docs && documentation build src/**/flow/*.js --format html --output docs",
     "docs:ts": "npm run clean:docs && typedoc src/**/typescript/*.ts --out docs"
-  }
+  },
+  "author": "Mark Hennessy <mhennessy116@gmail.com>",
+  "license": "MIT"
 }
