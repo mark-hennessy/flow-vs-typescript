@@ -57,7 +57,7 @@ Option B:
 2. Keep the default settings and click Next 5 times
 
 Note: Avoid clicking the Previous button as that can cause the wizard to skip the module import step, 
-which would lead to the "src" folder not showing up in IntelliJ's Project view.
+which may lead to the "src" folder not showing up in IntelliJ's Project view.
 
 3. Select 1.8 as the Project SDK
 4. Next > Finish
