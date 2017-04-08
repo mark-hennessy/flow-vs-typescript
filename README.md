@@ -163,10 +163,16 @@ Notable scripts that IntelliJ won't execute for you are:
 * `docs:js`: Generates a javadoc style website for JavaScript files
 * `docs:ts`: Generates a javadoc style website for TypeScript files
 
-Scripts can be executed from within IntelliJ by double clicking tasks in the "npm" view.
-Note that this may require the NodeJS plugin for IntelliJ.
+### Run Tasks in IntelliJ
+Scripts can be executed from within IntelliJ if the NodeJS plugin is installed.
 
-Scripts can also be executed in the terminal using
+Steps:
+1. Right click on or within the package.json file
+2. Select "Show npm Scripts"
+3. Select any task in the "npm" view to run it
+
+### Run Tasks in Terminal
+Scripts can be executed in the terminal using
 ```
 yarn run taskName
 ```
