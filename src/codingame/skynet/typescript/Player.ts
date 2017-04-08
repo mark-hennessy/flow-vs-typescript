@@ -1,13 +1,14 @@
 /**
  * This code, i.e. the output JS, is meant to be copied into the codingame editor
  * for the Skynet (Medium) puzzle.
+ * </br>
  * https://www.codingame.com/training/medium/skynet-revolution-episode-1
  *
  * The namespace gets transpiled into a simple IIFE.
  * It's used to prevent global namespace pollution.
  * It's also needed to avoid naming conflicts with things defined in the global scope.
  * For example, we would not be able to use names such as 'Node' and 'print'
- * without a namespace because they are already defined in the global scope.
+ * without a namespace because they are already defined by TypeScript in the global scope.
  */
 namespace Codingame {
 
