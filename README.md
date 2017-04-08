@@ -107,6 +107,12 @@ Preferences > Languages & Frameworks > TypeScript > TSLint
 ### Code Style
 IntelliJ code style needs to be configured so that auto-formatting does not conflict with linters.
 
+#### EditorConfig
+Preferences > Editor > Code Style
+
+In the "EditorConfig" section
+* Enable EditorConfig support: checked
+
 #### Spacing
 Indentation should be set to 2 spaces since this is recommended by the airbnb style guide.
 https://github.com/airbnb/javascript#whitespace
@@ -114,18 +120,35 @@ https://github.com/airbnb/javascript#whitespace
 Spacing should automatically be configured by the EditorConfig plugin, 
 which will read settings from the .editorconfig file.
 
+Verify that IntelliJ is using the following settings for spacing:
+
+Preferences > Editor > Code Style > JavaScript
+
+On the "Tabs and Indents" tab
+
+* Use tab character: unchecked
+* Tab size: 2
+* Indent: 2
+* Continuation indent: 4
+
 #### Trailing Spaces
-There is an eslint rule that warns about trailing whitespace even on blank lines. 
+There is an ESLint rule that warns about trailing whitespace even on blank lines. 
 I recommend the following IntelliJ settings to complement the eslint rule:
 
-Preferences > Editor > General > Other
+Preferences > Editor > General
+
+In the "Other" section
 * Strip trailing spaces on Save: Modified lines
   * Always keep trailing spaces on caret line: checked
 
 ### Custom JavaScript Auto-Formatting Rules
-Preferences > Editor > Code Style > JavaScript > Spaces > Within
-* Object literal braces
-* ES6 import/export braces
+Preferences > Editor > Code Style > JavaScript
+
+On the "Spaces" tab
+
+In the "Within" section
+* Object literal braces: checked
+* ES6 import/export braces: checked
 
 ## Build
 All of the project's build scripts as defined in the package.json file as npm scripts.
