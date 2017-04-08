@@ -44,10 +44,21 @@ The following IntelliJ setup is recommended. It's possible to setup the project 
 but some IDEs may lack support for Java.
 
 ### Project Import
-1. In IntelliJ, select "Open"
-2. Find and select the project directory
+There are a couple options for importing the project into IntelliJ.
 
-### Plugin Installation
+Option A:
+1. Select "Open"
+2. Find and select the project directory
+3. Manually mark the "src" directory as the "Sources Root" as described in the Java Setup section
+4. Manually set the Project SDK and language level to Java 8 as described in the Java Setup section
+
+Option B:
+1. Import the project from existing sources
+2. Click Next a bunch of times
+3. Select Java 8
+4. Finish
+
+### IntelliJ Plugin Installation
 Preferences > Plugins
 
 Required plugins:
