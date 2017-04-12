@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mark-hennessy/flow-vs-typescript.git",
+    "url": "https://github.com/mark-hennessy/flow-vs-typescript.git"
   },
   "keywords": [
     "flow",
