@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies,import/extensions */
 const webpack = require('webpack');
 
 module.exports = {
