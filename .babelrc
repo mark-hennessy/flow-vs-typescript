@@ -1,15 +1,43 @@
 {
-  "presets": [
-    [
-      "es2015",
-      {
-        "loose": true,
-        "modules": "commonjs"
-      }
-    ],
-    "react"
-  ],
-  "plugins": [
-    "external-helpers"
-  ]
+  "env": {
+    "development": {
+      "presets": [
+        [
+          "es2015",
+          {
+            "loose": true,
+            "modules": "commonjs"
+          }
+        ],
+        "react"
+      ]
+    },
+    "test": {
+      "presets": [
+        [
+          "es2015",
+          {
+            "loose": true,
+            "modules": "commonjs"
+          }
+        ],
+        "react"
+      ]
+    },
+    "rollup": {
+      "presets": [
+        [
+          "es2015",
+          {
+            "loose": true,
+            "modules": false
+          }
+        ],
+        "react"
+      ],
+      "plugins": [
+        "external-helpers"
+      ]
+    }
+  }
 }

@@ -60,8 +60,8 @@
     "babel": "babel src --out-dir out/babel; exit 0",
     "webpack": "webpack --config config/webpack.config.js; exit 0",
     "webpack:binary": "webpack --config config/webpack.binary.config.js; exit 0",
-    "rollup": "rollup --config config/rollup.config.js; exit 0",
-    "rollup:binary": "rollup --config config/rollup.binary.config.js; exit 0",
+    "rollup": "BABEL_ENV=rollup rollup --config config/rollup.config.js; exit 0",
+    "rollup:binary": "BABEL_ENV=rollup rollup --config config/rollup.binary.config.js; exit 0",
     "docs:js": "documentation build src/**/flow/*.js --format html --output docs/js",
     "docs:ts": "typedoc src/**/typescript/*.ts --out docs/ts"
   },
