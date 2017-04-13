@@ -115,9 +115,6 @@ Preferences > Languages & Frameworks > TypeScript
 Preferences > Languages & Frameworks > TypeScript > TSLint
 * Enabled: checked
 
-In the "Configuration file" section
-* Configuration file: absolute path to config/tslint.json
-
 ### Code Style
 IntelliJ code style needs to be configured so that auto-formatting does not conflict with linters.
 
