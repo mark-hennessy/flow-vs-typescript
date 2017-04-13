@@ -1,9 +1,11 @@
 import babel from 'rollup-plugin-babel';
 
+const FILE = 'language_comparison/codingame/skynet/flow/Player.js';
+
 export default {
-  entry: './src/codingame/skynet/flow/Player.js',
+  entry: `./src/${FILE}`,
   format: 'cjs',
-  dest: './out/rollup/codingame/skynet/flow/Player.js',
+  dest: `./out/rollup/${FILE}`,
   plugins: [
     babel({
       exclude: 'node_modules/**',

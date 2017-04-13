@@ -1,10 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies,import/extensions */
 const webpack = require('webpack');
 
+const FILE = 'language_comparison/codingame/skynet/flow/Player.js';
+
 module.exports = {
-  entry: ['babel-polyfill', './src/codingame/skynet/flow/Player.js'],
+  entry: ['babel-polyfill', `./src/${FILE}`],
   output: {
-    filename: './out/webpack_binary/codingame/skynet/flow/Player.js',
+    filename: `./out/webpack_binary/${FILE}`,
   },
   module: {
     loaders: [{

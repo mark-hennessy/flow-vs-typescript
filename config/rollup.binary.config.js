@@ -2,10 +2,12 @@
 import babel from 'rollup-plugin-babel';
 import uglify from 'rollup-plugin-uglify';
 
+const FILE = 'language_comparison/codingame/skynet/flow/Player.js';
+
 export default {
-  entry: './src/codingame/skynet/flow/Player.js',
+  entry: `./src/${FILE}`,
   format: 'cjs',
-  dest: './out/rollup_binary/codingame/skynet/flow/Player.js',
+  dest: `./out/rollup_binary/${FILE}`,
   plugins: [
     babel({
       exclude: 'node_modules/**',

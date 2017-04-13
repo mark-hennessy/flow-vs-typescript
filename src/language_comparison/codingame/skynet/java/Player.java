@@ -1,4 +1,4 @@
-package codingame.skynet.java;
+package language_comparison.codingame.skynet.java;
 
 import java.util.ArrayList;
 import java.util.Comparator;
