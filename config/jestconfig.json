@@ -12,10 +12,8 @@
     "node_modules",
     "<rootDir>/src"
   ],
-  "testRegex": "(/__tests__/.*|\\-(test|spec)|\\.(test|spec))\\.(ts|tsx|js)$",
+  "testRegex": "(/__tests__/.*)\\.(js)$",
   "moduleFileExtensions": [
-    "ts",
-    "tsx",
     "js"
   ]
 }
