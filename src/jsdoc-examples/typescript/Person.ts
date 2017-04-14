@@ -35,6 +35,6 @@ class Person {
 
 }
 
-const bob = new Person('Bob');
+const bob: Person = new Person('Bob');
 console.log(`${bob.getGreeting()} ${bob.name}`);
 Person.sayHi();

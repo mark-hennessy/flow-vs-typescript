@@ -1,12 +1,12 @@
-/* eslint-disable import/no-extraneous-dependencies,import/extensions */
-const webpack = require('webpack');
+/* eslint-disable import/no-extraneous-dependencies */
+import webpack from 'webpack';
 
-const FILE = 'language_comparison/codingame/skynet/flow/Player.js';
+import FLOW_ENTRY_FILE from './shared.config';
 
 module.exports = {
-  entry: ['babel-polyfill', `./src/${FILE}`],
+  entry: ['babel-polyfill', `./src/${FLOW_ENTRY_FILE}`],
   output: {
-    filename: `./out/webpack_binary/${FILE}`,
+    filename: `./out/webpack-binary/${FLOW_ENTRY_FILE}`,
   },
   module: {
     loaders: [{
