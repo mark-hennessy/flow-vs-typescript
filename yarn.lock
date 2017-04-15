@@ -2287,6 +2287,13 @@ flow-bin@^0.42.0:
   version "0.42.0"
   resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.42.0.tgz#05dd754b6b052de7b150f9210e2160746961e3cf"
 
+flow-remove-types@^1.0.0, flow-remove-types@^1.1.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/flow-remove-types/-/flow-remove-types-1.2.0.tgz#c285516eabba72177a1b10bfb58f6ffb675a8877"
+  dependencies:
+    babylon "^6.15.0"
+    vlq "^0.2.1"
+
 for-in@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -4368,6 +4375,12 @@ remote-origin-url@0.4.0:
   dependencies:
     parse-git-config "^0.2.0"
 
+remove-flow-types-loader@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/remove-flow-types-loader/-/remove-flow-types-loader-1.0.0.tgz#30b21b9f3d2b47643273a7bec583e1e0031bcd70"
+  dependencies:
+    flow-remove-types "^1.0.0"
+
 repeat-element@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/repeat-element/-/repeat-element-1.1.2.tgz#ef089a178d1483baae4d93eb98b4f9e4e11d990a"
@@ -4474,13 +4487,20 @@ rollup-plugin-babel@^2.7.1:
     object-assign "^4.1.0"
     rollup-pluginutils "^1.5.0"
 
+rollup-plugin-flow@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-flow/-/rollup-plugin-flow-1.1.1.tgz#6ce568f1dd559666b77ab76b4bae251407528db6"
+  dependencies:
+    flow-remove-types "^1.1.0"
+    rollup-pluginutils "^1.5.1"
+
 rollup-plugin-uglify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/rollup-plugin-uglify/-/rollup-plugin-uglify-1.0.1.tgz#11d0b0c8bcd2d07e6908f74fd16b0152390b922a"
   dependencies:
     uglify-js "^2.6.1"
 
-rollup-pluginutils@^1.5.0:
+rollup-pluginutils@^1.5.0, rollup-pluginutils@^1.5.1:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-1.5.2.tgz#1e156e778f94b7255bfa1b3d0178be8f5c552408"
   dependencies:
@@ -5270,6 +5290,10 @@ vinyl@^1.0.0, vinyl@^1.1.0:
     clone "^1.0.0"
     clone-stats "^0.0.1"
     replace-ext "0.0.1"
+
+vlq@^0.2.1:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/vlq/-/vlq-0.2.2.tgz#e316d5257b40b86bb43cb8d5fea5d7f54d6b0ca1"
 
 vm-browserify@0.0.4:
   version "0.0.4"
