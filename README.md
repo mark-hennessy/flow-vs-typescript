@@ -39,6 +39,59 @@ npm install
 ```
 Either of these commands will install the project's dependencies as defined in the package.json file.
 
+## NPM Scripts
+NPM scripts are defined in 'package.json'
+
+Notable scripts:
+* `eslint` Runs ESLint against all '.js' files in the project
+* `tslint` Runs TSLinting against all '.ts' files in the project
+* `test` Runs unit tests
+* `test:cov` Runs unit tests and generates code coverage reports
+* `docs:js` Generates a "javadoc style" website for JavaScript files
+* `docs:ts` Generates a "javadoc style" website for TypeScript files
+* `babel` Uses Babel to transpile ES6 to ES5
+* `webpack:es5` Uses Webpack to bundle the app into a single file
+  * Configuration is set to use Babel to remove Flow type annotations
+  * Configuration is set to use Babel to transpile ES6 to ES5
+* `webpack:es5:binary` Uses Webpack to bundle the app into a single file
+  * Configuration is set to use Babel to remove Flow type annotations
+  * Configuration is set to use Babel to transpile ES6 to ES5
+  * Configuration is set to use UglifyJS to minify and obfuscate output
+* `webpack:es6` Uses Webpack to bundle the app into a single file
+  * Configuration is set to remove Flow type annotations without using Babel
+  * Configuration is set to preserve ES6 syntax by not using Babel
+* `rollup:es5` Uses Rollup to bundle the app into a single file 
+  * Configuration is set to use Babel to remove Flow type annotations
+  * Configuration is set to use Babel to transpile ES6 to ES5
+* `rollup:es5:binary` Uses Rollup to bundle the app into a single file
+  * Configuration is set to use Babel to remove Flow type annotations
+  * Configuration is set to use Babel to transpile ES6 to ES5
+  * Configuration is set to use UglifyJS to minify and obfuscate output
+* `rollup:es6` Uses Rollup to bundle the app into a single file
+  * Configuration is set to remove Flow type annotations without using Babel
+  * Configuration is set to preserve ES6 syntax by not using Babel
+
+### NPM Scripts - Terminal
+NPM scripts can be executed in the terminal.
+```
+yarn run taskName
+```
+or
+```
+npm run taskName
+```
+
+### NPM Scripts - IntelliJ
+NPM scripts can be executed from within IntelliJ if the NodeJS plugin is installed.
+
+Steps:
+1. Right click on or within the package.json file
+2. Select "Show npm Scripts"
+3. Select any task in the "npm" view to run it
+
+Note that many scripts are optional since IntelliJ already has integrations for 
+linting tools, unit testing tools, flow, typescript compilation etc.
+
 ## IntelliJ Setup
 The following IntelliJ setup is recommended. It's possible to setup the project in other IDEs,
 but some IDEs may lack support for Java.
@@ -160,59 +213,6 @@ On the "Spaces" tab
 In the "Within" section
 * Object literal braces: checked
 * ES6 import/export braces: checked
-
-## Build
-All of the project's build scripts as defined in the package.json file as npm scripts.
-
-Most scripts are optional since IntelliJ already has integrations for linting tools, unit testing tools, 
-flow, typescript compilation etc.
-
-Notable scripts that IntelliJ won't execute for you are:
-* `eslint` Runs ESLint against all '.js' files in the project
-* `tslint` Runs TSLinting against all '.ts' files in the project
-* `test` Runs unit tests
-* `test:cov` Runs unit tests and generates code coverage reports
-* `docs:js` Generates a "javadoc style" website for JavaScript files
-* `docs:ts` Generates a "javadoc style" website for TypeScript files
-* `babel` Uses Babel to transpile ES6 to ES5
-* `webpack:es5` Uses Webpack to bundle the app into a single file
-  * Configuration is set to use Babel to remove Flow type annotations
-  * Configuration is set to use Babel to transpile ES6 to ES5
-* `webpack:es5:binary` Uses Webpack to bundle the app into a single file
-  * Configuration is set to use Babel to remove Flow type annotations
-  * Configuration is set to use Babel to transpile ES6 to ES5
-  * Configuration is set to use UglifyJS to minify and obfuscate output
-* `webpack:es6` Uses Webpack to bundle the app into a single file
-  * Configuration is set to remove Flow type annotations without using Babel
-  * Configuration is set to preserve ES6 syntax by not using Babel
-* `rollup:es5` Uses Rollup to bundle the app into a single file 
-  * Configuration is set to use Babel to remove Flow type annotations
-  * Configuration is set to use Babel to transpile ES6 to ES5
-* `rollup:es5:binary` Uses Rollup to bundle the app into a single file
-  * Configuration is set to use Babel to remove Flow type annotations
-  * Configuration is set to use Babel to transpile ES6 to ES5
-  * Configuration is set to use UglifyJS to minify and obfuscate output
-* `rollup:es6` Uses Rollup to bundle the app into a single file
-  * Configuration is set to remove Flow type annotations without using Babel
-  * Configuration is set to preserve ES6 syntax by not using Babel
-
-### Run NPM Scripts in Terminal
-NPM build scripts can be executed in the terminal using
-```
-yarn run taskName
-```
-or
-```
-npm run taskName
-```
-
-### Run NPM Scripts in IntelliJ
-NPM build scripts can be executed from within IntelliJ if the NodeJS plugin is installed.
-
-Steps:
-1. Right click on or within the package.json file
-2. Select "Show npm Scripts"
-3. Select any task in the "npm" view to run it
 
 ## License & copyright
 © Mark Hennessy
