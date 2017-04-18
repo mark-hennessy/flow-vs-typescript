@@ -26,7 +26,9 @@ This will also install the npm command, which is needed to install and manage de
 Yarn is a popular alternative to the npm command because it's faster and has better default behavior.
 Using Yarn is optional but highly recommended.
 
-Installation instructions can be found online at yarnpkg.com.
+Installation instructions can be found online.
+
+https://yarnpkg.com
 
 ### Dependencies
 In the terminal, change to the root project directory and run the following command:
@@ -179,6 +181,7 @@ In the "EditorConfig" section
 
 #### Spacing
 Indentation should be set to 2 spaces since this is recommended by the airbnb style guide.
+
 https://github.com/airbnb/javascript#whitespace
 
 Spacing should be automatically configured by the EditorConfig plugin, 
