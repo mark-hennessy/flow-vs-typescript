@@ -39,7 +39,7 @@ This is equivalent to the slower and less preferred
 ```
 npm install
 ```
-Either of these commands will install the project's dependencies as defined in the package.json file.
+Either of these commands will install the project's dependencies as defined in 'package.json'.
 
 ## NPM Scripts
 NPM scripts are defined in 'package.json'
@@ -76,11 +76,11 @@ Notable scripts:
 ### NPM Scripts - Terminal
 NPM scripts can be executed in the terminal.
 ```
-yarn run taskName
+yarn run scriptName
 ```
 or
 ```
-npm run taskName
+npm run scriptName
 ```
 
 ### NPM Scripts - IntelliJ
@@ -89,7 +89,7 @@ NPM scripts can be executed from within IntelliJ if the NodeJS plugin is install
 Steps:
 1. Right click on or within the package.json file
 2. Select "Show npm Scripts"
-3. Select any task in the "npm" view to run it
+3. Select any script in the "npm" view to run it
 
 Note that many scripts are optional since IntelliJ already has integrations for 
 linting tools, unit testing tools, flow, typescript compilation etc.
