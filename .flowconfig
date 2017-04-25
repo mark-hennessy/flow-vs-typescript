@@ -3,6 +3,7 @@
 ./bin
 ./coverage
 ./docs
+.*/node_modules/remove-flow-types-loader/.*
 
 [include]
 ./src
