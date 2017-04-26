@@ -276,7 +276,7 @@ namespace Codingame {
       // of the "strictNullChecks": true setting in tsconfig.json
       // The 'as' cast (type conversion) is needed for the code to compile.
       const nullableNode: Node | undefined = this.nodeRegistry.get(nodeId);
-      return nullableNode as Node;
+      return nullableNode!;
     }
   }
 
