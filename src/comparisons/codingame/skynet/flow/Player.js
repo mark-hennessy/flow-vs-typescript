@@ -140,7 +140,7 @@ class Scanner {
   /**
    * Moves the scanner to the next row.
    *
-   * @returns {boolean} true if the move to the next row was successful
+   * @returns true if the move to the next row was successful
    */
   moveToNextRow(): boolean {
     const rowResult: IteratorResult<string, void> = this._rowIterator.next();
@@ -292,18 +292,18 @@ class NodeLoader {
   }
 
   loadNode(nodeId: number): Node {
-    // This is a little weird because Flow guards against NullPointerExceptions
-    // by distinguishing between Node and ?Node (i.e. Nullable-Node).
-    // The Map.get(key) method returns null if it doesn't find an entry for the key.
-    // The first thing I do is call get() and create a new node as a fallback so
-    // that I have a guaranteed not-null node to return later on.
-    // Flow isn't smart enough to know if the has() method was checked or not.
-    const node: Node = this.nodeRegistry.get(nodeId) || new Node(nodeId);
     if (!this.nodeRegistry.has(nodeId)) {
-      this.nodeRegistry.set(nodeId, node);
+      this.nodeRegistry.set(nodeId, new Node(nodeId));
     }
 
-    return node;
+    // Flow guards against NullPointerExceptions
+    // by distinguishing between Node and ?Node (i.e. Nullable-Node).
+    // The ternary's else condition will never occur
+    // because of the "if !has, then set" logic above.
+    // However, the ternary is needed to make flow stop 
+    // complaining about the nullable type conversion.
+    const nullableNode: ?Node = this.nodeRegistry.get(nodeId);
+    return nullableNode != null ? nullableNode : new Node(-1);
   }
 }
 

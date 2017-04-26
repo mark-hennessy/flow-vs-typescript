@@ -125,7 +125,7 @@ namespace Codingame {
     /**
      * Moves the scanner to the next row.
      *
-     * @returns {boolean} true if the move to the next row was successful
+     * @returns true if the move to the next row was successful
      */
     moveToNextRow(): boolean {
       const rowResult: IteratorResult<string> = this.rowIterator.next();
@@ -272,7 +272,11 @@ namespace Codingame {
         this.nodeRegistry.set(nodeId, new Node(nodeId));
       }
 
-      return this.nodeRegistry.get(nodeId);
+      // TypeScript guards against NullPointerExceptions because
+      // of the "strictNullChecks": true setting in tsconfig.json
+      // The 'as' cast (type conversion) is needed for the code to compile.
+      const nullableNode: Node | undefined = this.nodeRegistry.get(nodeId);
+      return nullableNode as Node;
     }
   }
 
