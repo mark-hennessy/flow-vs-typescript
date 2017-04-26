@@ -200,7 +200,7 @@ On the "Tabs and Indents" tab
 
 #### Trailing Spaces
 There is an ESLint rule that warns about trailing whitespace even on blank lines. 
-I recommend the following IntelliJ settings to complement the eslint rule:
+I recommend the following IntelliJ settings to complement the ESLint rule:
 
 Preferences > Editor > General
 
