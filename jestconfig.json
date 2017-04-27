@@ -10,7 +10,10 @@
     ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
   },
   "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
-  "testRegex": "(/typescript/__tests__/.*)\\.(ts|tsx)$|(/flow/__tests__/.*)\\.(js)$",
+  "testMatch": [
+    "**/typescript/__tests__/**/*.ts?(x)",
+    "**/flow/__tests__/**/*.js"
+  ],
   "testPathIgnorePatterns": [
     "/out/"
   ],
