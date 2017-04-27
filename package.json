@@ -58,7 +58,7 @@
     "eslint": "eslint src; exit 0",
     "eslint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
     "tslint": "tslint --config tslint.json src/**/*.ts; exit 0",
-    "test": "jest --no-cache --config jestconfig.json",
+    "test": "jest --config jestconfig.json",
     "test:watch": "npm test -- --watch",
     "test:cov": "npm test -- --coverage; exit 0",
     "babel": "babel src --out-dir out/babel; exit 0",
