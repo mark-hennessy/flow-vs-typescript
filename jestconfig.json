@@ -1,19 +1,38 @@
 {
+  "globals": {
+    "__TS_CONFIG__": {
+      "module": "commonjs",
+      "jsx": "react"
+    }
+  },
+  "transform": {
+    "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+    ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+  },
+  "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
+  "testRegex": "(/__tests__/.*)\\.(ts|tsx|js)$",
   "testPathIgnorePatterns": [
-    "/node_modules/",
     "/out/"
   ],
-  "collectCoverageFrom": [
-    "src/jest-examples/**/*.js",
-    "!**/__tests__/**",
-    "!**/node_modules/**"
-  ],
-  "moduleDirectories": [
-    "node_modules",
-    "<rootDir>/src"
-  ],
-  "testRegex": "(/__tests__/.*)\\.(js)$",
   "moduleFileExtensions": [
-    "js"
-  ]
+    "ts",
+    "tsx",
+    "js",
+    "json"
+  ],
+  "coverageReporters": [
+    "html",
+    "json",
+    "text"
+  ],
+  "coverageDirectory": "coverage",
+  "collectCoverageFrom": [
+    "src/jest-examples/typescript/**/*.ts",
+    "src/jest-examples/flow/**/*.js"
+  ],
+  "coverageThreshold": {
+    "global": {
+      "statements": 95
+    }
+  }
 }
