@@ -2,7 +2,7 @@ import { sayHi, addNumbers } from '../random';
 
 describe('sayHi', () => {
   it('should say Hi', () => {
-    const message = sayHi();
+    const message: string = sayHi();
     expect(message).toBe('Hi');
   });
 });
