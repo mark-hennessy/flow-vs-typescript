@@ -20,8 +20,8 @@ docs/
 # Exclude typescript output js files
 **/typescript/**/*.js
 
-# Include typescript test js files in test directories
-!**/typescript/**/__tests__/*.js
-
 # Ignore generated source map files
 *.js.map
+
+# Ignore SonarQube scanner cache directory
+.scannerwork
