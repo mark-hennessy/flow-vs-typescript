@@ -268,15 +268,13 @@ namespace Codingame {
     }
 
     loadNode(nodeId: number): Node {
-      if (!this.nodeRegistry.has(nodeId)) {
-        this.nodeRegistry.set(nodeId, new Node(nodeId));
+      let node: Node | undefined = this.nodeRegistry.get(nodeId);
+      if (!node) {
+        node = new Node(nodeId);
+        this.nodeRegistry.set(nodeId, node);
       }
 
-      // TypeScript guards against NullPointerExceptions because
-      // of the "strictNullChecks": true setting in tsconfig.json
-      // The 'as' cast (type conversion) is needed for the code to compile.
-      const nullableNode: Node | undefined = this.nodeRegistry.get(nodeId);
-      return nullableNode!;
+      return node!;
     }
   }
 

@@ -292,18 +292,13 @@ class NodeLoader {
   }
 
   loadNode(nodeId: number): Node {
-    if (!this.nodeRegistry.has(nodeId)) {
-      this.nodeRegistry.set(nodeId, new Node(nodeId));
+    let node: ?Node = this.nodeRegistry.get(nodeId);
+    if (!node) {
+      node = new Node(nodeId);
+      this.nodeRegistry.set(nodeId, node);
     }
 
-    // Flow guards against NullPointerExceptions
-    // by distinguishing between Node and ?Node (i.e. Nullable-Node).
-    // The ternary's else condition will never occur
-    // because of the "if !has, then set" logic above.
-    // However, the ternary is needed to make flow stop 
-    // complaining about the nullable type conversion.
-    const nullableNode: ?Node = this.nodeRegistry.get(nodeId);
-    return nullableNode != null ? nullableNode : new Node(-1);
+    return node;
   }
 }
 

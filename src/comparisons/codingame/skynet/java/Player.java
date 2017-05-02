@@ -171,6 +171,7 @@ class Player {
       if (!nodeRegistry.containsKey(nodeId)) {
         nodeRegistry.put(nodeId, new Node(nodeId));
       }
+
       return nodeRegistry.get(nodeId);
     }
   }
