@@ -1,21 +1,24 @@
+# A leading slash matches the root directory.
+# A trailing slash ensures that only directories are matched and not files.
+
 # Ignore OS/filesystem metadata files
 .DS_Store
 
 # Ignore IDE metadata files
-.idea
+.idea/
 *.iml
 .vscode/
 
 # Ignore npm directories and related log files
-node_modules
+node_modules/
 npm-debug.log
 yarn-error.log
 
 # Ignore generated build directories
-bin/
-out/
-coverage/
-docs/
+/bin/
+/out/
+/coverage/
+/docs/
 
 # Exclude typescript output js files
 **/typescript/**/*.js
@@ -24,4 +27,4 @@ docs/
 *.js.map
 
 # Ignore SonarQube scanner cache directory
-.scannerwork
+.scannerwork/
