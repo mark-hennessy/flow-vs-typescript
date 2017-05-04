@@ -181,12 +181,8 @@ namespace Codingame {
   }
 
   class Link {
-    private nodeA: Node;
-    private nodeB: Node;
 
-    constructor(nodeA: Node, nodeB: Node) {
-      this.nodeA = nodeA;
-      this.nodeB = nodeB;
+    constructor(private nodeA: Node, private nodeB: Node) {
     }
 
     get importance(): number {
