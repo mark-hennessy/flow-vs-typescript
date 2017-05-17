@@ -5,26 +5,38 @@
 .DS_Store
 
 # IDE and user specific files
-.idea/
 *.iml
-.vscode/
+.idea/inspectionProfiles/
+.idea/modules/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+
+# Sensitive or high-churn files
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+.idea/libraries
+.idea/misc.xml
+
+# SonarQube plugin
+.idea/sonarlint/
+.scannerwork
+
+# Generated build directories
+/out/
+/coverage/
+/docs/
 
 # NPM directories and related log files
 node_modules/
 npm-debug.log
 yarn-error.log
 
-# Generated build directories
-/bin/
-/out/
-/coverage/
-/docs/
-
 # Exclude typescript output js files
 **/typescript/**/*.js
 
 # Generated source map files
 *.js.map
-
-# SonarQube directories
-.scannerwork/
