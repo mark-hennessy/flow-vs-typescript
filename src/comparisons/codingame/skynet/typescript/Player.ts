@@ -41,7 +41,7 @@ namespace Codingame {
   class Comparator {
 
     static compareAscending<T>(selectorFunc: (item: T) => number): comparatorFunc<T> {
-      return (a: T, b: T) => {
+      return (a: T, b: T): number => {
         const valueA: number = selectorFunc(a);
         const valueB: number = selectorFunc(b);
         if (valueA < valueB) {
@@ -55,7 +55,7 @@ namespace Codingame {
 
     static compareDescending<T>(selectorFunc: (item: T) => number): comparatorFunc<T> {
       const compareAscending: comparatorFunc<T> = Comparator.compareAscending(selectorFunc);
-      return (a: T, b: T) => compareAscending(b, a);
+      return (a: T, b: T): number => compareAscending(b, a);
     }
   }
 
@@ -225,7 +225,7 @@ namespace Codingame {
       }
 
       const mostImportantLink: Link = this.links
-        .sort(Comparator.compareDescending<Link>(link => link.importance))[0];
+        .sort(Comparator.compareDescending<Link>((link: Link) => link.importance))[0];
 
       mostImportantLink.sever();
     }
@@ -299,7 +299,7 @@ namespace Codingame {
 
         // sever the shortest exit path
         exitPaths
-          .sort(Comparator.compareAscending<Path>(path => path.length))[0]
+          .sort(Comparator.compareAscending<Path>((path: Path) => path.length))[0]
           .sever();
       }
     }
