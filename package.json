@@ -60,7 +60,7 @@
     "tslint": "tslint --config tslint.json src/**/*.ts; exit 0",
     "test": "jest --config jestconfig.json",
     "test:watch": "npm test -- --watch",
-    "test:cov": "npm test -- --coverage; exit 0",
+    "test:coverage": "npm test -- --coverage; exit 0",
     "babel": "babel src --out-dir build/babel; exit 0",
     "webpack:es5": "webpack --config config/webpack.es5.config.babel.js; exit 0",
     "webpack:es5:binary": "webpack --config config/webpack.es5.binary.config.babel.js; exit 0",

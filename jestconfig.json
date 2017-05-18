@@ -9,7 +9,6 @@
     "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
     ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
   },
-  "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
   "testMatch": [
     "**/typescript/__tests__/**/*.ts?(x)",
     "**/flow/__tests__/**/*.js"
@@ -37,5 +36,6 @@
     "global": {
       "statements": 95
     }
-  }
+  },
+  "mapCoverage": true
 }
