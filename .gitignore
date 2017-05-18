@@ -26,9 +26,7 @@
 .scannerwork
 
 # Generated build directories
-/out/
-/coverage/
-/docs/
+/build/
 
 # NPM directories and related log files
 node_modules/

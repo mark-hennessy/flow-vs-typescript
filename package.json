@@ -50,10 +50,9 @@
     "webpack": "^2.3.2"
   },
   "scripts": {
-    "clean": "npm run clean:out && npm run clean:cov && npm run clean:docs",
-    "clean:out": "rimraf out",
-    "clean:cov": "rimraf coverage",
-    "clean:docs": "rimraf docs",
+    "clean": "rimraf build",
+    "clean:coverage": "rimraf build/coverage",
+    "clean:docs": "rimraf build/docs",
     "flow:start": "flow; exit 0",
     "flow:stop": "flow stop",
     "eslint": "eslint src; exit 0",
@@ -62,15 +61,15 @@
     "test": "jest --config jestconfig.json",
     "test:watch": "npm test -- --watch",
     "test:cov": "npm test -- --coverage; exit 0",
-    "babel": "babel src --out-dir out/babel; exit 0",
+    "babel": "babel src --out-dir build/babel; exit 0",
     "webpack:es5": "webpack --config config/webpack.es5.config.babel.js; exit 0",
     "webpack:es5:binary": "webpack --config config/webpack.es5.binary.config.babel.js; exit 0",
     "webpack:es6": "webpack --config config/webpack.es6.config.babel.js; exit 0",
     "rollup:es5": "BABEL_ENV=rollup rollup --config config/rollup.es5.config.js; exit 0",
     "rollup:es5:binary": "BABEL_ENV=rollup rollup --config config/rollup.es5.binary.config.js; exit 0",
     "rollup:es6": "BABEL_ENV=rollup rollup --config config/rollup.es6.config.js; exit 0",
-    "docs:js": "documentation build src/**/flow/*.js --format html --output docs/js",
-    "docs:ts": "typedoc src/**/typescript/*.ts --out docs/ts"
+    "docs:js": "documentation build src/**/flow/*.js --format html --output build/docs/js",
+    "docs:ts": "typedoc src/**/typescript/*.ts --out build/docs/ts"
   },
   "author": "Mark Hennessy <mhennessy116@gmail.com>",
   "license": "MIT"

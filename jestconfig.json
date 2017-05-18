@@ -15,7 +15,7 @@
     "**/flow/__tests__/**/*.js"
   ],
   "testPathIgnorePatterns": [
-    "/out/"
+    "/build/"
   ],
   "moduleFileExtensions": [
     "ts",
@@ -28,7 +28,7 @@
     "json",
     "text"
   ],
-  "coverageDirectory": "coverage",
+  "coverageDirectory": "build/coverage",
   "collectCoverageFrom": [
     "src/jest-examples/typescript/**/*.ts",
     "src/jest-examples/flow/**/*.js"

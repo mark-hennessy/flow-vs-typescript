@@ -6,7 +6,7 @@ import FLOW_ENTRY_FILE from './shared.config';
 module.exports = {
   entry: ['babel-polyfill', `./src/${FLOW_ENTRY_FILE}`],
   output: {
-    filename: `./out/webpack-es5-binary/${FLOW_ENTRY_FILE}`,
+    filename: `./build/webpack-es5-binary/${FLOW_ENTRY_FILE}`,
   },
   module: {
     loaders: [{

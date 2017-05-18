@@ -1,6 +1,3 @@
 **/node_modules
 **/typescript
-/bin
-/out
-/coverage
-/docs
+/build

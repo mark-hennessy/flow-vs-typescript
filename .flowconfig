@@ -1,9 +1,7 @@
 [ignore]
-./out
-./bin
-./coverage
-./docs
+./build
 .*/node_modules/remove-flow-types-loader/.*
+.*/node_modules/documentation/.*
 
 [include]
 ./src
