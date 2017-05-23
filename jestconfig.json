@@ -1,8 +1,15 @@
 {
+  "globals": {
+    "__TS_CONFIG__": {
+      "module": "commonjs",
+      "jsx": "react"
+    }
+  },
   "transform": {
     "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
     ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
   },
+  "setupTestFrameworkScriptFile": "<rootDir>/src/jest-examples/typescript/beforeTest.ts",
   "testMatch": [
     "**/typescript/__tests__/**/*.ts?(x)",
     "**/flow/__tests__/**/*.js"

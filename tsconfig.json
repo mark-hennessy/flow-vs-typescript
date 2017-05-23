@@ -4,7 +4,7 @@
     "module": "ES6",
     "strict": true,
     "noImplicitReturns": true,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
