@@ -8,8 +8,8 @@
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
-    "watch": true,
-    "sourceMap": true
+    "sourceMap": false,
+    "watch": false
   },
   "include": [
     "src/**/*"

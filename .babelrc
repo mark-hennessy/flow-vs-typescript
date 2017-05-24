@@ -22,7 +22,8 @@
           }
         ],
         "react"
-      ]
+      ],
+      "sourceMaps": "inline"
     },
     "rollup": {
       "presets": [

@@ -2,14 +2,14 @@
   "globals": {
     "__TS_CONFIG__": {
       "module": "commonjs",
-      "jsx": "react"
+      "jsx": "react",
+      "allowSyntheticDefaultImports": true
     }
   },
   "transform": {
-    "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
     ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
   },
-  "setupTestFrameworkScriptFile": "<rootDir>/src/jest-examples/typescript/beforeTest.ts",
+  "setupTestFrameworkScriptFile": "<rootDir>/beforeTest.js",
   "testMatch": [
     "**/typescript/__tests__/**/*.ts?(x)",
     "**/flow/__tests__/**/*.js"
@@ -40,5 +40,6 @@
       "statements": 95
     }
   },
-  "mapCoverage": true
+  "mapCoverage": true,
+  "verbose": true
 }
