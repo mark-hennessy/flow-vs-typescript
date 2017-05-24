@@ -58,7 +58,7 @@
     "eslint": "eslint src; exit 0",
     "eslint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
     "tslint": "tslint --config tslint.json src/**/*.ts; exit 0",
-    "test": "jest --config jestconfig.json --coverage --no-cache",
+    "test": "jest --config jestconfig.json --coverage",
     "babel": "babel src --out-dir build/babel; exit 0",
     "webpack:es5": "webpack --config config/webpack.es5.config.babel.js; exit 0",
     "webpack:es5:binary": "webpack --config config/webpack.es5.binary.config.babel.js; exit 0",
