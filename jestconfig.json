@@ -31,7 +31,9 @@
   "coverageDirectory": "build/coverage",
   "collectCoverageFrom": [
     "src/jest-examples/typescript/**/*.ts",
-    "src/jest-examples/flow/**/*.js"
+    "src/jest-examples/flow/**/*.js",
+    "!src/**/*.d.ts",
+    "!src/**/*{view,View}.ts"
   ],
   "coverageThreshold": {
     "global": {
