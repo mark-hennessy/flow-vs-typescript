@@ -12,8 +12,8 @@
   },
   "setupTestFrameworkScriptFile": "<rootDir>/beforeTest.js",
   "testMatch": [
-    "**/typescript/__tests__/**/*.ts?(x)",
-    "**/flow/__tests__/**/*.js"
+    "**/typescript/__tests__/*.test.ts",
+    "**/flow/__tests__/*.test.js"
   ],
   "testPathIgnorePatterns": [
     "/build/"
