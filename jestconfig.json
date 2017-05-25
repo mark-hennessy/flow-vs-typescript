@@ -36,7 +36,7 @@
     "src/jest-examples/typescript/**/*.ts",
     "src/jest-examples/flow/**/*.js",
     "!src/**/*.d.ts",
-    "!src/**/*{view,View}.ts"
+    "!src/**/*{view,View}.{js,ts}"
   ],
   "coverageThreshold": {
     "global": {
