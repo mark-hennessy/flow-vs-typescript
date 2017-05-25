@@ -10,7 +10,8 @@
           }
         ],
         "react"
-      ]
+      ],
+      "sourceMaps": "inline"
     },
     "test": {
       "presets": [

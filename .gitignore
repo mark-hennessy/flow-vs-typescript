@@ -27,6 +27,7 @@
 
 # Generated build directories
 /build/
+/jest-cache/
 
 # NPM directories and related log files
 node_modules/

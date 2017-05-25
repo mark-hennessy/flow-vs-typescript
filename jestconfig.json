@@ -3,13 +3,15 @@
     "__TS_CONFIG__": {
       "module": "commonjs",
       "jsx": "react",
+      "inlineSourceMap": true,
       "allowSyntheticDefaultImports": true
     }
   },
   "transform": {
     "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
-    ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/dist/preprocessor.js"
   },
+  "cacheDirectory": "./jest-cache",
   "setupTestFrameworkScriptFile": "<rootDir>/beforeTest.js",
   "testMatch": [
     "**/typescript/__tests__/*.test.ts",

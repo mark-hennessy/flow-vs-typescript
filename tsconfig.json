@@ -2,19 +2,24 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "ES6",
+    "jsx": "react",
+    "sourceMap": false,
+    "inlineSourceMap": true,
     "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
     "noImplicitReturns": true,
     "noEmitOnError": false,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
-    "sourceMap": false,
     "watch": false
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "build"
   ]
 }
