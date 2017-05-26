@@ -17,19 +17,19 @@ describe('calculations', () => {
   });
 });
 
-// describe('the presenter', () => {
-//   let subject;
-//
-//   beforeEach(() => {
-//     subject = new Presenter();
-//   });
-//
-//   test('interacting with the view and DOM', () => {
-//     subject.setNumber(3);
-//     expect(subject.getNumberAsString()).toBe('3');
-//   });
-//
-//   test('getting the row count from the model', () => {
-//     expect(subject.getRowCount()).toBe(7);
-//   });
-// });
+describe('the presenter', () => {
+  let subject;
+
+  beforeEach(() => {
+    subject = new Presenter();
+  });
+
+  test('interacting with the view and DOM', () => {
+    subject.setNumber(3);
+    expect(subject.getNumberAsString()).toBe('3');
+  });
+
+  test('getting the row count from the model', () => {
+    expect(subject.getRowCount()).toBe(7);
+  });
+});

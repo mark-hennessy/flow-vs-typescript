@@ -9,6 +9,7 @@
             "modules": "commonjs"
           }
         ],
+        "stage-2",
         "react"
       ],
       "sourceMaps": "inline"
@@ -22,6 +23,7 @@
             "modules": "commonjs"
           }
         ],
+        "stage-2",
         "react"
       ],
       "sourceMaps": "inline"
@@ -35,6 +37,7 @@
             "modules": false
           }
         ],
+        "stage-2",
         "react"
       ],
       "plugins": [
