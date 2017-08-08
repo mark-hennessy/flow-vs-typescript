@@ -1,9 +1,9 @@
 # Flow vs. Typescript
-This is a sandbox app that I used to experiment with various JavaScript technologies. 
+This is a sandbox app created to experiment with various JavaScript technologies. 
 
-My main goal was to compare ES6/Flow and Typescript.
+The main goal was to compare ES6/Flow and Typescript.
 
-My secondary goals were to experiment with:
+The secondary goals were to experiment with:
 
 * Build tools
 * NPM dependency management
@@ -31,15 +31,20 @@ Installation instructions can be found online.
 https://yarnpkg.com
 
 ### Dependencies
-In the terminal, change to the root project directory and run the following command:
+The project uses third party NPM dependencies.
+
+#### Dependency Installation
+The project dependencies defined in 'package.json' can be installed using
 ```
 yarn install
 ```
-This is equivalent to the slower and less preferred
+or
 ```
 npm install
 ```
-Either of these commands will install the project's dependencies as defined in 'package.json'.
+
+#### Dependency Manifest
+Dependencies are documented [here](docs/dependencies.md)
 
 ## NPM Scripts
 NPM scripts are defined in 'package.json'
@@ -74,7 +79,7 @@ Notable scripts:
   * Configuration is set to preserve ES6 syntax by not using Babel
 
 ### NPM Scripts - Terminal
-NPM scripts can be executed in the terminal.
+NPM scripts can be executed from the terminal using
 ```
 yarn run scriptName
 ```
