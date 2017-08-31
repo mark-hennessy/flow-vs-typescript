@@ -13,9 +13,6 @@ The secondary goals were to experiment with:
 * Generating javadoc style documentation for JavaScript
 * IDE integration
 
-## Dependencies
-NPM dependencies are documented [here](docs/dependencies.md)
-
 ## Notable NPM Scripts
 * `eslint` Runs ESLint against all '.js' files in the project
 * `tslint` Runs TSLinting against all '.ts' files in the project
@@ -47,6 +44,9 @@ NPM dependencies are documented [here](docs/dependencies.md)
 
 ## IntelliJ Setup
 IntelliJ setup instructions are documented [here](docs/intelliJSetup.md)
+
+## Dependencies
+NPM dependencies are documented [here](docs/dependencies.md)
 
 ## License & copyright
 © Mark Hennessy
