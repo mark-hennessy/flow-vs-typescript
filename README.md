@@ -46,7 +46,7 @@ NPM dependencies are documented [here](docs/dependencies.md)
   * Configuration is set to preserve ES6 syntax by not using Babel
 
 ## IntelliJ Setup
-IntelliJ setup instructions are documented [here](docs/intellijSetup.md)
+IntelliJ setup instructions are documented [here](docs/intelliJSetup.md)
 
 ## License & copyright
 © Mark Hennessy

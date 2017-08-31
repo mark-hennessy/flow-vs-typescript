@@ -131,3 +131,22 @@ Steps:
 
 Note that many scripts are optional since IntelliJ already has integrations for 
 linting tools, unit testing tools, flow, typescript compilation etc.
+
+## Testing
+The project uses Jest as its JavaScript unit testing framework.
+
+Tests can be run from within IntelliJ after some light one-time configuration:
+
+1. Click the run configurations dropdown
+2. Click Edit Configurations...
+3. Expand Defaults
+4. Select Jest
+5. Set "Configuration file" to <projectname>/jestconfig.json
+6. Set "Jest package" to <projectname>/node_modules/jest
+7. Click Apply or OK to save your changes
+
+Note that you do not need to create a new configuration you are simply editing the default Jest config 
+so that each time you run a test it picks up the correct default settings.
+
+Once setup, tests can be run by right-clicking in test files and selecting 'Run' or 'Debug' from 
+the context menu.
