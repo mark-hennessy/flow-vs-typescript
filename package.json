@@ -10,6 +10,26 @@
     "flow",
     "typescript"
   ],
+  "scripts": {
+    "clean": "rimraf build",
+    "clean:coverage": "rimraf build/coverage",
+    "clean:docs": "rimraf build/docs",
+    "flow:start": "flow; exit 0",
+    "flow:stop": "flow stop",
+    "eslint": "eslint src; exit 0",
+    "eslint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
+    "tslint": "tslint --config tslint.js src/**/*.ts; exit 0",
+    "test": "jest --coverage --no-cache",
+    "babel": "babel src --out-dir build/babel; exit 0",
+    "webpack:es5": "webpack --config config/webpack.es5.config.babel.js; exit 0",
+    "webpack:es5:binary": "webpack --config config/webpack.es5.binary.config.babel.js; exit 0",
+    "webpack:es6": "webpack --config config/webpack.es6.config.babel.js; exit 0",
+    "rollup:es5": "BABEL_ENV=rollup rollup --config config/rollup.es5.config.js; exit 0",
+    "rollup:es5:binary": "BABEL_ENV=rollup rollup --config config/rollup.es5.binary.config.js; exit 0",
+    "rollup:es6": "BABEL_ENV=rollup rollup --config config/rollup.es6.config.js; exit 0",
+    "docs:js": "documentation build src/**/flow/*.js --format html --output build/docs/js",
+    "docs:ts": "typedoc src/**/typescript/*.ts --out build/docs/ts"
+  },
   "dependencies": {
     "babel-polyfill": "^6.23.0"
   },
@@ -49,26 +69,6 @@
     "typedoc": "^0.7.0",
     "typescript": "^2.2.1",
     "webpack": "^2.3.2"
-  },
-  "scripts": {
-    "clean": "rimraf build",
-    "clean:coverage": "rimraf build/coverage",
-    "clean:docs": "rimraf build/docs",
-    "flow:start": "flow; exit 0",
-    "flow:stop": "flow stop",
-    "eslint": "eslint src; exit 0",
-    "eslint:changed": "git diff --name-only --diff-filter=ACMRTUB `git merge-base HEAD master` | grep '\\.js$' | xargs eslint --; exit 0",
-    "tslint": "tslint --config tslint.json src/**/*.ts; exit 0",
-    "test": "jest --config jestconfig.json --coverage --no-cache",
-    "babel": "babel src --out-dir build/babel; exit 0",
-    "webpack:es5": "webpack --config config/webpack.es5.config.babel.js; exit 0",
-    "webpack:es5:binary": "webpack --config config/webpack.es5.binary.config.babel.js; exit 0",
-    "webpack:es6": "webpack --config config/webpack.es6.config.babel.js; exit 0",
-    "rollup:es5": "BABEL_ENV=rollup rollup --config config/rollup.es5.config.js; exit 0",
-    "rollup:es5:binary": "BABEL_ENV=rollup rollup --config config/rollup.es5.binary.config.js; exit 0",
-    "rollup:es6": "BABEL_ENV=rollup rollup --config config/rollup.es6.config.js; exit 0",
-    "docs:js": "documentation build src/**/flow/*.js --format html --output build/docs/js",
-    "docs:ts": "typedoc src/**/typescript/*.ts --out build/docs/ts"
   },
   "author": "Mark Hennessy <mhennessy116@gmail.com>",
   "license": "MIT"
