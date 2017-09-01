@@ -4,9 +4,11 @@ import babel from 'rollup-plugin-babel';
 import FLOW_ENTRY_FILE from './shared.config';
 
 export default {
-  entry: `./src/${FLOW_ENTRY_FILE}`,
-  format: 'cjs',
-  dest: `./build/rollup-es5/${FLOW_ENTRY_FILE}`,
+  input: `./src/${FLOW_ENTRY_FILE}`,
+  output: {
+    file: `./build/rollup-es5/${FLOW_ENTRY_FILE}`,
+    format: 'cjs',
+  },
   plugins: [
     babel({
       exclude: 'node_modules/**',

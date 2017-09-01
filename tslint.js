@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 module.exports = {
   // https://www.npmjs.com/package/tslint-config-airbnb
   extends: 'tslint-config-airbnb',
