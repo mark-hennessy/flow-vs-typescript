@@ -39,7 +39,6 @@ function debug(message: string) {
 
 type comparatorFunc<T> = (a: T, b: T) => number;
 class Comparator {
-
   static compareAscending<T>(selectorFunc: (item: T) => number): comparatorFunc<T> {
     return (a: T, b: T): number => {
       const valueA: number = selectorFunc(a);
