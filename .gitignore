@@ -25,9 +25,12 @@
 .idea/sonarlint/
 .scannerwork
 
-# Generated build directories
+# Build and output directories
 /build/
+/out/
+/coverage/
 /jest-cache/
+
 
 # NPM directories and related log files
 node_modules/
