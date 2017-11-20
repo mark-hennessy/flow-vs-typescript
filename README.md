@@ -48,7 +48,7 @@ IntelliJ setup instructions are documented [here](docs/intelliJSetup.md)
 ## Dependencies
 NPM dependencies are documented [here](docs/dependencies.md)
 
-## License & copyright
+## License & Copyright
 © Mark Hennessy
 
 Licensed under the [MIT License](LICENSE)
